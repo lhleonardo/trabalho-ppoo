@@ -11,7 +11,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
  */
-public class Rabbit
+public class Rabbit extends Animal
 {
     // Characteristics shared by all rabbits (static fields).
 
@@ -26,14 +26,6 @@ public class Rabbit
     // A shared random number generator to control breeding.
     private static final Random rand = new Random();
     
-    // Individual characteristics (instance fields).
-    
-    // The rabbit's age.
-    private int age;
-    // Whether the rabbit is alive or not.
-    private boolean alive;
-    // The rabbit's position
-    private Location location;
 
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -43,10 +35,8 @@ public class Rabbit
      */
     public Rabbit(boolean randomAge)
     {
-        age = 0;
-        alive = true;
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
+            this.setAge(rand.nextInt(MAX_AGE));
         }
     }
     
@@ -57,16 +47,16 @@ public class Rabbit
     public void run(Field updatedField, List newRabbits)
     {
         incrementAge();
-        if(alive) {
+        if(this.isAlive()) {
             int births = breed();
             for(int b = 0; b < births; b++) {
                 Rabbit newRabbit = new Rabbit(false);
                 newRabbits.add(newRabbit);
-                Location loc = updatedField.randomAdjacentLocation(location);
+                Location loc = updatedField.randomAdjacentLocation(this.getLocation());
                 newRabbit.setLocation(loc);
                 updatedField.place(newRabbit, loc);
             }
-            Location newLocation = updatedField.freeAdjacentLocation(location);
+            Location newLocation = updatedField.freeAdjacentLocation(this.getLocation());
             // Only transfer to the updated field if there was a free location
             if(newLocation != null) {
                 setLocation(newLocation);
@@ -74,7 +64,7 @@ public class Rabbit
             }
             else {
                 // can neither move nor stay - overcrowding - all locations taken
-                alive = false;
+                this.setAlive(false);
             }
         }
     }
@@ -85,12 +75,11 @@ public class Rabbit
      */
     private void incrementAge()
     {
-        age++;
-        if(age > MAX_AGE) {
-            alive = false;
+        this.setAge(this.getAge()+1);;
+        if(this.getAge() > MAX_AGE) {
+            this.setAlive(false);
         }
     }
-    
     /**
      * Generate a number representing the number of births,
      * if it can breed.
@@ -110,42 +99,16 @@ public class Rabbit
      */
     private boolean canBreed()
     {
-        return age >= BREEDING_AGE;
+        return this.getAge() >= BREEDING_AGE;
     }
     
-    /**
-     * Check whether the rabbit is alive or not.
-     * @return True if the rabbit is still alive.
-     */
-    public boolean isAlive()
-    {
-        return alive;
-    }
-
     /**
      * Tell the rabbit that it's dead now :(
      */
     public void setEaten()
     {
-        alive = false;
-    }
-    
-    /**
-     * Set the animal's location.
-     * @param row The vertical coordinate of the location.
-     * @param col The horizontal coordinate of the location.
-     */
-    public void setLocation(int row, int col)
-    {
-        this.location = new Location(row, col);
+        this.setAlive(false);
     }
 
-    /**
-     * Set the rabbit's location.
-     * @param location The rabbit's location.
-     */
-    public void setLocation(Location location)
-    {
-        this.location = location;
-    }
+
 }

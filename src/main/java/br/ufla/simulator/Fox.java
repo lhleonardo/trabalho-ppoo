@@ -12,7 +12,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
  */
-public class Fox
+public class Fox extends Animal
 {
     // Characteristics shared by all foxes (static fields).
     
@@ -32,12 +32,6 @@ public class Fox
     
     // Individual characteristics (instance fields).
 
-    // The fox's age.
-    private int age;
-    // Whether the fox is alive or not.
-    private boolean alive;
-    // The fox's position
-    private Location location;
     // The fox's food level, which is increased by eating rabbits.
     private int foodLevel;
 
@@ -49,10 +43,9 @@ public class Fox
      */
     public Fox(boolean randomAge)
     {
-        age = 0;
-        alive = true;
+        super();
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
+            this.setAge(rand.nextInt(MAX_AGE));
             foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
         }
         else {
@@ -76,14 +69,14 @@ public class Fox
             for(int b = 0; b < births; b++) {
                 Fox newFox = new Fox(false);
                 newFoxes.add(newFox);
-                Location loc = updatedField.randomAdjacentLocation(location);
+                Location loc = updatedField.randomAdjacentLocation(this.getLocation());
                 newFox.setLocation(loc);
                 updatedField.place(newFox, loc);
             }
             // Move towards the source of food if found.
-            Location newLocation = findFood(currentField, location);
+            Location newLocation = findFood(currentField, this.getLocation());
             if(newLocation == null) {  // no food found - move randomly
-                newLocation = updatedField.freeAdjacentLocation(location);
+                newLocation = updatedField.freeAdjacentLocation(this.getLocation());
             }
             if(newLocation != null) {
                 setLocation(newLocation);
@@ -91,7 +84,7 @@ public class Fox
             }
             else {
                 // can neither move nor stay - overcrowding - all locations taken
-                alive = false;
+                this.setAlive(false);
             }
         }
     }
@@ -101,9 +94,9 @@ public class Fox
      */
     private void incrementAge()
     {
-        age++;
-        if(age > MAX_AGE) {
-            alive = false;
+        this.setAge(this.getAge()+1);
+        if(this.getAge() > MAX_AGE) {
+            this.setAlive(false);
         }
     }
     
@@ -114,7 +107,7 @@ public class Fox
     {
         foodLevel--;
         if(foodLevel <= 0) {
-            alive = false;
+            this.setAlive(false);
         }
     }
     
@@ -162,34 +155,7 @@ public class Fox
      */
     private boolean canBreed()
     {
-        return age >= BREEDING_AGE;
+        return this.getAge() >= BREEDING_AGE;
     }
     
-    /**
-     * Check whether the fox is alive or not.
-     * @return True if the fox is still alive.
-     */
-    public boolean isAlive()
-    {
-        return alive;
-    }
-
-    /**
-     * Set the animal's location.
-     * @param row The vertical coordinate of the location.
-     * @param col The horizontal coordinate of the location.
-     */
-    public void setLocation(int row, int col)
-    {
-        this.location = new Location(row, col);
-    }
-
-    /**
-     * Set the fox's location.
-     * @param location The fox's location.
-     */
-    public void setLocation(Location location)
-    {
-        this.location = location;
-    }
 }
