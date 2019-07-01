@@ -24,7 +24,7 @@ public class Rabbit extends Animal {
 	 */
 	public Rabbit(Field field, Location location, boolean randomAge) {
 		super(field, location);
-		this.percentual=1;
+		percentual=1;
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 		}
@@ -102,11 +102,11 @@ public class Rabbit extends Animal {
 		return 5;
 	}
 	public void setPercentual(double p) {
-        this.percentual = p;
+        percentual = p;
     }
 	
 	public double getPercentual() {
-		return this.percentual;
+		return percentual;
 	}
 	public int breed() {
 	    if (this.getBreedingProbability() == 0.1275) {

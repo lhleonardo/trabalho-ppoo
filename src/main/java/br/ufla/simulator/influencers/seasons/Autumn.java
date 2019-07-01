@@ -1,12 +1,23 @@
 package br.ufla.simulator.influencers.seasons;
 
-import br.ufla.simulator.influencers.Influencer;
 import br.ufla.simulator.simulation.Simulator;
 
-public class Autumn implements Influencer {
+public class Autumn extends Season {
+
+	public Autumn(Simulator simulation) {
+		super(simulation);
+	}
 
 	@Override
-	public void influence(Simulator simulation) {
+	public void onEnter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLeave() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
