@@ -49,7 +49,7 @@ public class Fox extends Animal {
 	public void act(List<Animal> newFoxes) {
 		incrementAge();
 		incrementHunger();
-		if (isAlive()) {
+		if (isActive()){
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			Field f = this.getField();
@@ -104,7 +104,7 @@ public class Fox extends Animal {
 	}
 
 	@Override
-	public boolean isAlive() {
+	public boolean isActive() {
 		if (foodLevel <= 0) {
 			return false;
 		}

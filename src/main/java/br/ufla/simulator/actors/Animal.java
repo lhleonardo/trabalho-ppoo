@@ -69,8 +69,6 @@ public abstract class Animal implements Actor {
 	@Override
 	public abstract void act(List<Animal> newAnimals);
 
-	public abstract boolean isAlive();
-
 	public abstract int getBreedingAge();
 
 	public abstract int getMaxAge();

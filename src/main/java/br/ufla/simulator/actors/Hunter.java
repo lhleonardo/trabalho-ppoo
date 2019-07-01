@@ -9,4 +9,9 @@ public class Hunter implements Actor {
 
 	}
 
+	@Override
+	public boolean isActive() {
+		return false;
+	}
+
 }

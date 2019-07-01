@@ -26,7 +26,7 @@ import br.ufla.simulator.simulation.FieldStats;
  * @version 2002-04-23
  */
 public class SimulatorView extends JFrame {
-	// Colors used for empty locations.
+	// Colors used for empty locations	.
 	private static final Color EMPTY_COLOR = Color.white;
 
 	// Color used for objects that have no defined color.

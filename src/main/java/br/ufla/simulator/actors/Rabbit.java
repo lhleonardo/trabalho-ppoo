@@ -37,7 +37,7 @@ public class Rabbit extends Animal {
 	public void act(List<Animal> newRabbits) {
 		incrementAge();
 		Field f = this.getField();
-		if (this.isAlive()) {
+		if (this.isActive()) {
 			int births = breed();
 			for (int b = 0; b < births; b++) {
 				Rabbit newRabbit = new Rabbit(f, this.getLocation(), false);
@@ -65,7 +65,7 @@ public class Rabbit extends Animal {
 	}
 
 	@Override
-	public boolean isAlive() {
+	public boolean isActive() {
 		if (this.wasEaten) {
 			return false;
 		}
