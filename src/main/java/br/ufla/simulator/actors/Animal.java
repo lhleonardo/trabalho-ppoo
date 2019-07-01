@@ -1,7 +1,10 @@
-package br.ufla.simulator;
+package br.ufla.simulator.actors;
 
 import java.util.List;
 import java.util.Random;
+
+import br.ufla.simulator.simulation.Field;
+import br.ufla.simulator.simulation.Location;
 
 public abstract class Animal implements Actor {
 
@@ -11,6 +14,8 @@ public abstract class Animal implements Actor {
 	private Location location;
 	// campo de simulação atual
 	private Field field;
+	// Se o animal foi caçado
+	private boolean wasHunted;
 
 	private static final Random rand = new Random();
 
@@ -47,6 +52,16 @@ public abstract class Animal implements Actor {
 	public Field getField() {
 		return field;
 	}
+	
+	public boolean getWasHunted() {
+		return wasHunted;
+	}
+	
+	public void setWasHunted() {
+		wasHunted = true;
+	}
+	
+	
 
 	/**
 	 * Generate a number representing the number of births, if it can breed.
@@ -65,8 +80,6 @@ public abstract class Animal implements Actor {
 
 	@Override
 	public abstract void act(List<Actor> newAnimals);
-
-	public abstract boolean isAlive();
 
 	public abstract int getBreedingAge();
 

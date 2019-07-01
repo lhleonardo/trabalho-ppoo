@@ -1,7 +1,10 @@
-package br.ufla.simulator;
+package br.ufla.simulator.actors;
 
 import java.util.List;
 import java.util.Random;
+
+import br.ufla.simulator.simulation.Field;
+import br.ufla.simulator.simulation.Location;
 
 /**
  * A simple model of a rabbit. Rabbits age, move, breed, and die.
@@ -11,7 +14,6 @@ import java.util.Random;
  */
 public class Rabbit extends Animal {
 	private static final Random rand = new Random();
-	private boolean wasEaten;
 
 	/**
 	 * Create a new rabbit. A rabbit may be created with age zero (a new born) or
@@ -34,7 +36,7 @@ public class Rabbit extends Animal {
 	public void act(List<Actor> newRabbits) {
 		incrementAge();
 		Field f = this.getField();
-		if (this.isAlive()) {
+		if (this.isActive()) {
 			int births = breed();
 			for (int b = 0; b < births; b++) {
 				Rabbit newRabbit = new Rabbit(f, this.getLocation(), false);
@@ -52,8 +54,8 @@ public class Rabbit extends Animal {
 		}
 	}
 
-	public void setEaten() {
-		this.wasEaten = true;
+	public void setWasHunted() {
+		this.setWasHunted();
 	}
 
 	@Override
@@ -62,8 +64,8 @@ public class Rabbit extends Animal {
 	}
 
 	@Override
-	public boolean isAlive() {
-		if (this.wasEaten) {
+	public boolean isActive() {
+		if (this.getWasHunted()) {
 			return false;
 		}
 

@@ -1,4 +1,5 @@
-package br.ufla.simulator;
+package br.ufla.simulator.simulation;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,13 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-/**
- * A simple predator-prey simulator, based on a field containing
- * rabbits and foxes.
- * 
- * @author David J. Barnes and Michael Kolling
- * @version 2002-04-09
- */
+import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.actors.Animal;
+import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.Rabbit;
+import br.ufla.simulator.simulation.view.SimulatorView;
+
 public class Simulator
 {
     // The private static final variables represent 
@@ -27,7 +27,7 @@ public class Simulator
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
 
     // The list of animals in the field
-    private List<Actor> animals;
+    private List<Animal> animals;
     // The list of animals just born
     private List<Actor> newAnimals;
     // The current state of the field.
@@ -105,27 +105,10 @@ public class Simulator
         
         // let all animals act
         for(Iterator iter = animals.iterator(); iter.hasNext(); ) {
-            Actor animal = iter.next();
-            if(animal instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit)animal;
-                if(rabbit.isAlive()) {
-                    rabbit.act(newAnimals);
-                }
-                else {
-                    iter.remove();   // remove dead rabbits from collection
-                }
-            }
-            else if(animal instanceof Fox) {
-                Fox fox = (Fox)animal;
-                if(fox.isAlive()) {
-                    fox.act(newAnimals);
-                }
-                else {
-                    iter.remove();   // remove dead foxes from collection
-                }
-            }
-            else {
-                System.out.println("found unknown animal");
+            Actor animal = (Actor) iter.next();
+            animal.act(newAnimals);
+            if(! animal.isActive()) {
+            	iter.remove();
             }
         }
         // add new born animals to the list of animals

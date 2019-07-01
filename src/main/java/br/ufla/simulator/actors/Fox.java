@@ -1,8 +1,11 @@
-package br.ufla.simulator;
+package br.ufla.simulator.actors;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import br.ufla.simulator.simulation.Field;
+import br.ufla.simulator.simulation.Location;
 
 /**
  * A simple model of a fox. Foxes age, move, eat rabbits, and die.
@@ -11,13 +14,12 @@ import java.util.Random;
  * @version 2002-04-11
  */
 public class Fox extends Animal {
-
 	// The food value of a single rabbit. In effect, this is the
 	// number of steps a fox can go before it has to eat again.
 	private static final int RABBIT_FOOD_VALUE = 4;
 	// A shared random number generator to control breeding.
 	private static final Random rand = new Random();
-
+	
 	// The fox's food level, which is increased by eating rabbits.
 	private int foodLevel;
 
@@ -46,7 +48,7 @@ public class Fox extends Animal {
 	public void act(List<Actor> newFoxes) {
 		incrementAge();
 		incrementHunger();
-		if (isAlive()) {
+		if (isActive()){
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			Field f = this.getField();
@@ -84,28 +86,28 @@ public class Fox extends Animal {
 	 * @return Where food was found, or null if it wasn't.
 	 */
 	private Location findFood(Field field, Location location) {
-		Iterator<?> adjacentLocations = field.adjacentLocations(location);
-		while (adjacentLocations.hasNext()) {
-			Location where = (Location) adjacentLocations.next();
-			Object animal = field.getActorAt(where);
-			if (animal instanceof Rabbit) {
-				Rabbit rabbit = (Rabbit) animal;
-				if (rabbit.isAlive()) {
-					rabbit.setEaten();
-					foodLevel = RABBIT_FOOD_VALUE;
-					return where;
-				}
-			}
+		Location newLocation = field.findActor(location, Rabbit.class,1);
+		if (newLocation != null) {
+			location = newLocation;
+			return location;
 		}
 		return null;
+		
+	}
+	
+	public void setWasHunted() {
+		this.setWasHunted();
 	}
 
 	@Override
-	public boolean isAlive() {
+	public boolean isActive() {
+		if(this.getWasHunted()) {
+			return false;
+		}
 		if (foodLevel <= 0) {
 			return false;
 		}
-
+		
 		if (this.getAge() > getMaxAge()) {
 			return false;
 		}
@@ -140,6 +142,5 @@ public class Fox extends Animal {
 	public int getMaxLitterSize() {
 		return 3;
 	}
-
 
 }

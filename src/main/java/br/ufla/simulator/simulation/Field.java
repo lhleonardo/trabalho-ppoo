@@ -1,10 +1,14 @@
-package br.ufla.simulator;
+package br.ufla.simulator.simulation;
 
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
+
+import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.simulation.Location;
 
 /**
  * Represent a rectangular grid of field positions.
@@ -101,6 +105,7 @@ public class Field
      * @return A valid location within the grid area. This
      *         may be the same Actor as the location parameter.
      */
+    
     public Location randomAdjacentLocation(Location location)
     {
         int row = location.getRow();
@@ -120,6 +125,41 @@ public class Field
         }
     }
     
+    public Location findActor(Location location, Class<?> actorType,int radius) {
+        Iterator<?> adjacentLocations = this.adjacentLocations(location, radius);
+        while (adjacentLocations.hasNext()) {
+            Location where = (Location) adjacentLocations.next();
+            Actor animal =  this.getActorAt(location);
+            if (animal.getClass().isInstance(actorType)) {
+                return where;
+            }
+        }
+        return null;
+    }s
+    
+    public Location moveToNearestFox(Location location) {
+    	Location actorLocation = null;
+    	int y = 3;
+    	while(actorLocation == null) {
+    		actorLocation = this.findActor(location, Fox.class, y);
+    	}
+    	Location newLocation = location;
+	    if (actorLocation.getRow() > location.getRow()) {
+	    	newLocation.setRowPlus(1);
+	    }else if(actorLocation.getRow() < location.getRow()) {
+	    	newLocation.setRowPlus(-1);
+	    }
+	    if(actorLocation.getCol() > location.getCol()) {
+	    	newLocation.setColPlus(1);
+	    }else if(actorLocation.getCol() < location.getCol()) {
+	    	newLocation.setColPlus(-1);
+	    }
+	    
+	    if (this.getActorAt(newLocation) == null) {
+	    	return newLocation;
+	    }
+    	return null;
+    }
     /**
      * Try to find a free location that is adjacent to the
      * given location. If there is none, then return the current
@@ -181,10 +221,10 @@ public class Field
         int row = location.getRow();
         int col = location.getCol();
         LinkedList locations = new LinkedList();
-        for(int roffset = -1; roffset <= 1; roffset++) {
+        for(int roffset = (-1)*x; roffset <= x; roffset++) {
             int nextRow = row + roffset;
             if(nextRow >= 0 && nextRow < depth) {
-                for(int coffset = -1; coffset <= 1; coffset++) {
+                for(int coffset = (-1)*x; coffset <= x; coffset++) {
                     int nextCol = col + coffset;
                     // Exclude invalid locations and the original location.
                     if(nextCol >= 0 && nextCol < width && (roffset != 0 || coffset != 0)) {
