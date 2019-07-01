@@ -163,4 +163,8 @@ public class Simulator
         }
         Collections.shuffle(animals);
     }
+    
+    public List<Animal> getAnimals() {
+    	return animals;
+    }
 }
