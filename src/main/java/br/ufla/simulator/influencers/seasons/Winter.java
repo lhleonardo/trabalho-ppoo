@@ -3,7 +3,6 @@ package br.ufla.simulator.influencers.seasons;
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.Fox;
 import br.ufla.simulator.actors.Rabbit;
-import br.ufla.simulator.influencers.Influencer;
 import br.ufla.simulator.simulation.Simulator;
 
 public class Winter extends Season{
