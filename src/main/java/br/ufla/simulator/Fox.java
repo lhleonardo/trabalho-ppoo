@@ -43,7 +43,7 @@ public class Fox extends Animal {
 	 * process, it might breed, die of hunger, or die of old age.
 	 */
 	@Override
-	public void act(List<Animal> newFoxes) {
+	public void act(List<Actor> newFoxes) {
 		incrementAge();
 		incrementHunger();
 		if (isAlive()) {

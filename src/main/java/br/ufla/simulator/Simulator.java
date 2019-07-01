@@ -27,9 +27,9 @@ public class Simulator
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
 
     // The list of animals in the field
-    private List<Animal> animals;
+    private List<Actor> animals;
     // The list of animals just born
-    private List<Animal> newAnimals;
+    private List<Actor> newAnimals;
     // The current state of the field.
     private Field field;
     // A second field, used to build the next stage of the simulation.
@@ -105,7 +105,7 @@ public class Simulator
         
         // let all animals act
         for(Iterator iter = animals.iterator(); iter.hasNext(); ) {
-            Object animal = iter.next();
+            Actor animal = iter.next();
             if(animal instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit)animal;
                 if(rabbit.isAlive()) {

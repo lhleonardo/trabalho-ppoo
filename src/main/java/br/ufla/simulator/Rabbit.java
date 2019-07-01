@@ -31,7 +31,7 @@ public class Rabbit extends Animal {
 	 * will breed or die of old age.
 	 */
 	@Override
-	public void act(List<Animal> newRabbits) {
+	public void act(List<Actor> newRabbits) {
 		incrementAge();
 		Field f = this.getField();
 		if (this.isAlive()) {

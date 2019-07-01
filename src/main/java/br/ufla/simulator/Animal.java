@@ -64,7 +64,7 @@ public abstract class Animal implements Actor {
 	public abstract boolean canBreed();
 
 	@Override
-	public abstract void act(List<Animal> newAnimals);
+	public abstract void act(List<Actor> newAnimals);
 
 	public abstract boolean isAlive();
 
