@@ -25,8 +25,9 @@ import br.ufla.simulator.simulation.FieldStats;
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-23
  */
+@SuppressWarnings("serial")
 public class SimulatorView extends JFrame {
-	// Colors used for empty locations	.
+	// Colors used for empty locations .
 	private static final Color EMPTY_COLOR = Color.white;
 
 	// Color used for objects that have no defined color.
@@ -38,7 +39,7 @@ public class SimulatorView extends JFrame {
 	private FieldView fieldView;
 
 	// A map for storing colors for participants in the simulation
-	private HashMap colors;
+	private HashMap<Class<? extends Actor>, Color> colors;
 	// A statistics object computing and storing simulation information
 	private FieldStats stats;
 
@@ -47,7 +48,7 @@ public class SimulatorView extends JFrame {
 	 */
 	public SimulatorView(int height, int width) {
 		stats = new FieldStats();
-		colors = new HashMap();
+		colors = new HashMap<>();
 
 		setTitle("Fox and Rabbit Simulation");
 		stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
@@ -70,15 +71,15 @@ public class SimulatorView extends JFrame {
 	/**
 	 * Define a color to be used for a given class of animal.
 	 */
-	public void setColor(Class animalClass, Color color) {
-		colors.put(animalClass, color);
+	public void setColor(Class<? extends Actor> actorClass, Color color) {
+		colors.put(actorClass, color);
 	}
 
 	/**
 	 * Define a color to be used for a given class of animal.
 	 */
-	private Color getColor(Class animalClass) {
-		Color col = (Color) colors.get(animalClass);
+	private Color getColor(Class<? extends Actor> actorClass) {
+		Color col = (Color) colors.get(actorClass);
 		if (col == null) {
 			// no color defined for this class
 			return UNKNOWN_COLOR;
