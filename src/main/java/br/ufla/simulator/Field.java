@@ -20,7 +20,7 @@ public class Field
     // The depth and width of the field.
     private int depth, width;
     // Storage for the animals.
-    private Object[][] field;
+    private Actor[][] field;
 
     /**
      * Represent a field of the given dimensions.

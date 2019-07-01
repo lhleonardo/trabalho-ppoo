@@ -2,7 +2,7 @@ package br.ufla.simulator;
 
 import java.util.Random;
 
-public abstract class Animal {
+public abstract class Animal extends Actor {
 
     // The Animal age.
     private int age;
