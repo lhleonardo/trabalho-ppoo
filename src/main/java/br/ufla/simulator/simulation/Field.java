@@ -132,61 +132,62 @@ public class Field {
 			return null;
 		}
 	}
-	public Location findActor(Location location, Class<?> actorType,int radius) {
-        	Iterator<?> adjacentLocations = this.adjacentLocations(location, radius);
-        	while (adjacentLocations.hasNext()) {
-            		Location where = (Location) adjacentLocations.next();
-            		Actor animal =  this.getActorAt(location);
-            		if (animal.getClass().isInstance(actorType)) {
-               			return where;
-            		}
-        	}
-        	return null;
-    	}
-    
-    	public Location moveToNearestFox(Location location) {
-    		Location actorLocation = null;
-    		int y = 3;
-    		while(actorLocation == null) {
-    			actorLocation = this.findActor(location, Fox.class, y);
-    		}
-    		Location newLocation = location;
-	    	if (actorLocation.getRow() > location.getRow()) {
-	    		newLocation.setRowPlus(1);
-	    	}else if(actorLocation.getRow() < location.getRow()) {
-	    		newLocation.setRowPlus(-1);
-	    	}
-	    	if(actorLocation.getCol() > location.getCol()) {
-	    		newLocation.setColPlus(1);
-	    	}else if(actorLocation.getCol() < location.getCol()) {
-	    		newLocation.setColPlus(-1);
-	    	}
-	    
-	    	if (this.getActorAt(newLocation) == null) {
-	    		return newLocation;
-	    	}
-    		return null;
-    	}
-    	public Iterator<Location> adjacentLocations(Location location,int x)
-        {
-            int row = location.getRow();
-            int col = location.getCol();
-            LinkedList locations = new LinkedList();
-            for(int roffset = (-1)*x; roffset <= x; roffset++) {
-                int nextRow = row + roffset;
-                if(nextRow >= 0 && nextRow < depth) {
-                    for(int coffset = (-1)*x; coffset <= x; coffset++) {
-                        int nextCol = col + coffset;
-                        // Exclude invalid locations and the original location.
-                        if(nextCol >= 0 && nextCol < width && (roffset != 0 || coffset != 0)) {
-                            locations.add(new Location(nextRow, nextCol));
-                        }
-                    }
-                }
-            }
-            Collections.shuffle(locations,rand);
-            return locations.iterator();
-        }
+
+	public Location findActor(Location location, Class<?> actorType, int radius) {
+		Iterator<?> adjacentLocations = this.adjacentLocations(location, radius);
+		while (adjacentLocations.hasNext()) {
+			Location where = (Location) adjacentLocations.next();
+			Actor animal = this.getActorAt(location);
+			if (animal.getClass().isInstance(actorType)) {
+				return where;
+			}
+		}
+		return null;
+	}
+
+	public Location moveToNearestFox(Location location) {
+		Location actorLocation = null;
+		int y = 3;
+		while (actorLocation == null) {
+			actorLocation = this.findActor(location, Fox.class, y);
+		}
+		Location newLocation = location;
+		if (actorLocation.getRow() > location.getRow()) {
+			newLocation.setRowPlus(1);
+		} else if (actorLocation.getRow() < location.getRow()) {
+			newLocation.setRowPlus(-1);
+		}
+		if (actorLocation.getCol() > location.getCol()) {
+			newLocation.setColPlus(1);
+		} else if (actorLocation.getCol() < location.getCol()) {
+			newLocation.setColPlus(-1);
+		}
+
+		if (this.getActorAt(newLocation) == null) {
+			return newLocation;
+		}
+		return null;
+	}
+
+	public Iterator<Location> adjacentLocations(Location location, int x) {
+		int row = location.getRow();
+		int col = location.getCol();
+		LinkedList<Location> locations = new LinkedList<>();
+		for (int roffset = (-1) * x; roffset <= x; roffset++) {
+			int nextRow = row + roffset;
+			if (nextRow >= 0 && nextRow < depth) {
+				for (int coffset = (-1) * x; coffset <= x; coffset++) {
+					int nextCol = col + coffset;
+					// Exclude invalid locations and the original location.
+					if (nextCol >= 0 && nextCol < width && (roffset != 0 || coffset != 0)) {
+						locations.add(new Location(nextRow, nextCol));
+					}
+				}
+			}
+		}
+		Collections.shuffle(locations, rand);
+		return locations.iterator();
+	}
 
 	/**
 	 * Generate an iterator over a shuffled list of locations adjacent to the given
@@ -214,15 +215,16 @@ public class Field {
 		}
 		Collections.shuffle(locations, rand);
 		return locations.iterator();
-		}
-	public int getDepth(){
+	}
+
+	public int getDepth() {
 		return depth;
-		}
-		    
-		    /**
-		     * @return The width of the field.
-		     */
-	public int getWidth(){
+	}
+
+	/**
+	 * @return The width of the field.
+	 */
+	public int getWidth() {
 		return width;
-		}
+	}
 }
