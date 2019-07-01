@@ -7,7 +7,6 @@ public class Autumn implements Influencer {
 
 	@Override
 	public void influence(Simulator simulation) {
-
 	}
 
 }

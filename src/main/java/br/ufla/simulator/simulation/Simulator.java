@@ -172,6 +172,10 @@ public class Simulator {
 		view.showStatus(step, field);
 	}
 
+	public List<Actor> getAnimals() {
+		return actors;
+	}
+
 	/**
 	 * Populate the field with foxes and rabbits.
 	 */
