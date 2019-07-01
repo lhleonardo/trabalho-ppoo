@@ -93,7 +93,7 @@ public class Fox extends Animal {
 			Object animal = field.getActorAt(where);
 			if (animal instanceof Rabbit) {
 				Rabbit rabbit = (Rabbit) animal;
-				if (rabbit.isAlive()) {
+				if (rabbit.isActive()) {
 					rabbit.setEaten();
 					foodLevel = RABBIT_FOOD_VALUE;
 					return where;
