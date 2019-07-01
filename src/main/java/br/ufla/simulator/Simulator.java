@@ -27,9 +27,9 @@ public class Simulator
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
 
     // The list of animals in the field
-    private List animals;
+    private List<Animal> animals;
     // The list of animals just born
-    private List newAnimals;
+    private List<Animal> newAnimals;
     // The current state of the field.
     private Field field;
     // A second field, used to build the next stage of the simulation.
@@ -110,7 +110,7 @@ public class Simulator
             if(animal instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit)animal;
                 if(rabbit.isAlive()) {
-                    rabbit.run(updatedField, newAnimals);
+                    rabbit.act(newAnimals);
                 }
                 else {
                     iter.remove();   // remove dead rabbits from collection
@@ -119,7 +119,7 @@ public class Simulator
             else if(animal instanceof Fox) {
                 Fox fox = (Fox)animal;
                 if(fox.isAlive()) {
-                    fox.hunt(field, updatedField, newAnimals);
+                    fox.act(newAnimals);
                 }
                 else {
                     iter.remove();   // remove dead foxes from collection
@@ -167,15 +167,13 @@ public class Simulator
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
-                    Fox fox = new Fox(true);
+                    Fox fox = new Fox(field, new Location(row, col), true);
                     animals.add(fox);
-                    fox.setLocation(row, col);
                     field.place(fox, row, col);
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
-                    Rabbit rabbit = new Rabbit(true);
+                    Rabbit rabbit = new Rabbit(field, new Location(row, col), true);
                     animals.add(rabbit);
-                    rabbit.setLocation(row, col);
                     field.place(rabbit, row, col);
                 }
                 // else leave the location empty.
