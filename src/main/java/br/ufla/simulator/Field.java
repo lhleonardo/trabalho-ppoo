@@ -31,7 +31,7 @@ public class Field
     {
         this.depth = depth;
         this.width = width;
-        field = new Object[depth][width];
+        field = new Actor[depth][width];
     }
     
     /**
@@ -54,7 +54,7 @@ public class Field
      * @param row Row coordinate of the location.
      * @param col Column coordinate of the location.
      */
-    public void place(Object animal, int row, int col)
+    public void place(Actor animal, int row, int col)
     {
         place(animal, new Location(row, col));
     }
@@ -66,7 +66,7 @@ public class Field
      * @param animal The animal to be placed.
      * @param location Where to place the animal.
      */
-    public void place(Object animal, Location location)
+    public void place(Actor animal, Location location)
     {
         field[location.getRow()][location.getCol()] = animal;
     }
@@ -76,9 +76,9 @@ public class Field
      * @param location Where in the field.
      * @return The animal at the given location, or null if there is none.
      */
-    public Object getObjectAt(Location location)
+    public Actor getActorAt(Location location)
     {
-        return getObjectAt(location.getRow(), location.getCol());
+        return getActorAt(location.getRow(), location.getCol());
     }
     
     /**
@@ -87,7 +87,7 @@ public class Field
      * @param col The desired column.
      * @return The animal at the given location, or null if there is none.
      */
-    public Object getObjectAt(int row, int col)
+    public Actor getActorAt(int row, int col)
     {
         return field[row][col];
     }
@@ -99,7 +99,7 @@ public class Field
      * of the field.
      * @param location The location from which to generate an adjacency.
      * @return A valid location within the grid area. This
-     *         may be the same object as the location parameter.
+     *         may be the same Actor as the location parameter.
      */
     public Location randomAdjacentLocation(Location location)
     {
@@ -128,7 +128,7 @@ public class Field
      * of the field.
      * @param location The location from which to generate an adjacency.
      * @return A valid location within the grid area. This may be the
-     *         same object as the location parameter, or null if all
+     *         same Actor as the location parameter, or null if all
      *         locations around are full.
      */
     public Location freeAdjacentLocation(Location location)

@@ -27,7 +27,7 @@ public class Location
     /**
      * Implement content equality.
      */
-    public boolean equals(Object obj)
+    public boolean equals(Actor obj)
     {
         if(obj instanceof Location) {
             Location other = (Location) obj;

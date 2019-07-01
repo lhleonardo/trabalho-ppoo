@@ -3,7 +3,7 @@ package br.ufla.simulator;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Animal extends Actor {
+public abstract class Animal implements Actor {
 
 	// idade do animal
 	private int age;
@@ -63,6 +63,7 @@ public abstract class Animal extends Actor {
 
 	public abstract boolean canBreed();
 
+	@Override
 	public abstract void act(List<Animal> newAnimals);
 
 	public abstract boolean isAlive();

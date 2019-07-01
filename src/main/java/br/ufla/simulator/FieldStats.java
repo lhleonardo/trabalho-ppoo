@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * This class collects and provides some statistical data on the state 
  * of a field. It is flexible: it will create and maintain a counter 
- * for any class of object that is found within the field.
+ * for any class of Actor that is found within the field.
  * 
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-23
@@ -20,7 +20,7 @@ public class FieldStats
     private boolean countsValid;
 
     /**
-     * Construct a field-statistics object.
+     * Construct a field-statistics Actor.
      */
     public FieldStats()
     {
@@ -119,7 +119,7 @@ public class FieldStats
         reset();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getObjectAt(row, col);
+                Actor animal = field.getActorAt(row, col);
                 if(animal != null) {
                     incrementCount(animal.getClass());
                 }

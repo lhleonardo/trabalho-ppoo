@@ -87,7 +87,7 @@ public class Fox extends Animal {
 		Iterator<?> adjacentLocations = field.adjacentLocations(location);
 		while (adjacentLocations.hasNext()) {
 			Location where = (Location) adjacentLocations.next();
-			Object animal = field.getObjectAt(where);
+			Object animal = field.getActorAt(where);
 			if (animal instanceof Rabbit) {
 				Rabbit rabbit = (Rabbit) animal;
 				if (rabbit.isAlive()) {
@@ -140,5 +140,6 @@ public class Fox extends Animal {
 	public int getMaxLitterSize() {
 		return 3;
 	}
+
 
 }
