@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.Fox;
@@ -36,7 +35,7 @@ public class Simulator {
 		Actor create(Field f, Location l);
 	}
 
-	private static class Occurrence {
+	private static class Occurrence implements Comparable<Occurrence> {
 		private final Class<? extends Actor> from;
 		private final double probability;
 
@@ -73,6 +72,18 @@ public class Simulator {
 			if (Double.doubleToLongBits(probability) != Double.doubleToLongBits(other.probability))
 				return false;
 			return true;
+		}
+
+		@Override
+		public int compareTo(Occurrence o) {
+			if (this.probability > o.probability) {
+				return 1;
+			}
+
+			if (this.probability < o.probability) {
+				return -1;
+			}
+			return 0;
 		}
 
 	}
@@ -182,7 +193,10 @@ public class Simulator {
 	private void populate(Field field) {
 		Random rand = new Random();
 		field.clear();
-		Set<Occurrence> occurrences = Simulator.probabilities.keySet();
+
+		List<Occurrence> occurrences = new LinkedList<>(Simulator.probabilities.keySet());
+		Collections.sort(occurrences);
+
 		for (int row = 0; row < field.getDepth(); row++) {
 			for (int col = 0; col < field.getWidth(); col++) {
 				boolean isCreated = false;
@@ -194,7 +208,11 @@ public class Simulator {
 					Occurrence current = iterador.next();
 
 					if (chance <= current.probability) {
-						actors.add(Simulator.probabilities.get(current).create(field, new Location(row, col)));
+						System.out.println("Um novo ator foi criado. Tipo: " + current.from.getName());
+
+						Actor animal = Simulator.probabilities.get(current).create(field, new Location(row, col));
+						actors.add(animal);
+						field.place(animal, row, col);
 						isCreated = true;
 					}
 				}
