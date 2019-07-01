@@ -1,4 +1,4 @@
-package br.ufla.simulator;
+package br.ufla.simulator.actors;
 
 import java.util.List;
 

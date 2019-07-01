@@ -1,8 +1,11 @@
-package br.ufla.simulator;
+package br.ufla.simulator.actors;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import br.ufla.simulator.simulation.Field;
+import br.ufla.simulator.simulation.Location;
 
 /**
  * A simple model of a fox. Foxes age, move, eat rabbits, and die.
@@ -140,6 +143,5 @@ public class Fox extends Animal {
 	public int getMaxLitterSize() {
 		return 3;
 	}
-
 
 }

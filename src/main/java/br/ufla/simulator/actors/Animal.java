@@ -1,7 +1,10 @@
-package br.ufla.simulator;
+package br.ufla.simulator.actors;
 
 import java.util.List;
 import java.util.Random;
+
+import br.ufla.simulator.simulation.Field;
+import br.ufla.simulator.simulation.Location;
 
 public abstract class Animal implements Actor {
 
