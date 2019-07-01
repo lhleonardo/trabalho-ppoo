@@ -105,27 +105,10 @@ public class Simulator
         
         // let all animals act
         for(Iterator iter = animals.iterator(); iter.hasNext(); ) {
-            Object animal = iter.next();
-            if(animal instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit)animal;
-                if(rabbit.isAlive()) {
-                    rabbit.act(newAnimals);
-                }
-                else {
-                    iter.remove();   // remove dead rabbits from collection
-                }
-            }
-            else if(animal instanceof Fox) {
-                Fox fox = (Fox)animal;
-                if(fox.isAlive()) {
-                    fox.act(newAnimals);
-                }
-                else {
-                    iter.remove();   // remove dead foxes from collection
-                }
-            }
-            else {
-                System.out.println("found unknown animal");
+            Actor animal = (Actor) iter.next();
+            animal.act(newAnimals);
+            if(! animal.isAlive()) {
+            	iter.remove();
             }
         }
         // add new born animals to the list of animals
