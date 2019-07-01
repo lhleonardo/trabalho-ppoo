@@ -1,114 +1,101 @@
 package br.ufla.simulator;
 
-
 import java.util.List;
 import java.util.Random;
 
 /**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
+ * A simple model of a rabbit. Rabbits age, move, breed, and die.
  * 
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
  */
-public class Rabbit extends Animal
-{
-    // Characteristics shared by all rabbits (static fields).
+public class Rabbit extends Animal {
+	private static final Random rand = new Random();
+	private boolean wasEaten;
 
-    // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 5;
-    // The age to which a rabbit can live.
-    private static final int MAX_AGE = 50;
-    // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.15;
-    // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
-    // A shared random number generator to control breeding.
-    private static final Random rand = new Random();
-    
+	/**
+	 * Create a new rabbit. A rabbit may be created with age zero (a new born) or
+	 * with a random age.
+	 * 
+	 * @param randomAge If true, the rabbit will have a random age.
+	 */
+	public Rabbit(Field field, Location location, boolean randomAge) {
+		super(field, location);
+		if (randomAge) {
+			this.setAge(rand.nextInt(getMaxAge()));
+		}
+	}
 
-    /**
-     * Create a new rabbit. A rabbit may be created with age
-     * zero (a new born) or with a random age.
-     * 
-     * @param randomAge If true, the rabbit will have a random age.
-     */
-    public Rabbit(boolean randomAge)
-    {
-        if(randomAge) {
-            this.setAge(rand.nextInt(MAX_AGE));
-        }
-    }
-    
-    /**
-     * This is what the rabbit does most of the time - it runs 
-     * around. Sometimes it will breed or die of old age.
-     */
-    public void run(Field updatedField, List newRabbits)
-    {
-        incrementAge();
-        if(this.isAlive()) {
-            int births = breed();
-            for(int b = 0; b < births; b++) {
-                Rabbit newRabbit = new Rabbit(false);
-                newRabbits.add(newRabbit);
-                Location loc = updatedField.randomAdjacentLocation(this.getLocation());
-                newRabbit.setLocation(loc);
-                updatedField.place(newRabbit, loc);
-            }
-            Location newLocation = updatedField.freeAdjacentLocation(this.getLocation());
-            // Only transfer to the updated field if there was a free location
-            if(newLocation != null) {
-                setLocation(newLocation);
-                updatedField.place(this, newLocation);
-            }
-            else {
-                // can neither move nor stay - overcrowding - all locations taken
-                this.setAlive(false);
-            }
-        }
-    }
-    
-    /**
-     * Increase the age.
-     * This could result in the rabbit's death.
-     */
-    private void incrementAge()
-    {
-        this.setAge(this.getAge()+1);;
-        if(this.getAge() > MAX_AGE) {
-            this.setAlive(false);
-        }
-    }
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed()
-    {
-        int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
+	/**
+	 * This is what the rabbit does most of the time - it runs around. Sometimes it
+	 * will breed or die of old age.
+	 */
+	@Override
+	public void act(List<Animal> newRabbits) {
+		incrementAge();
+		Field f = this.getField();
+		if (this.isAlive()) {
+			int births = breed();
+			for (int b = 0; b < births; b++) {
+				Rabbit newRabbit = new Rabbit(f, this.getLocation(), false);
+				newRabbits.add(newRabbit);
+				Location loc = f.randomAdjacentLocation(this.getLocation());
+				newRabbit.setLocation(loc);
+				f.place(newRabbit, loc);
+			}
+			Location newLocation = f.freeAdjacentLocation(this.getLocation());
+			// Only transfer to the updated field if there was a free location
+			setLocation(newLocation);
+			if (newLocation != null) {
+				f.place(this, newLocation);
+			}
+		}
+	}
 
-    /**
-     * A rabbit can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return this.getAge() >= BREEDING_AGE;
-    }
-    
-    /**
-     * Tell the rabbit that it's dead now :(
-     */
-    public void setEaten()
-    {
-        this.setAlive(false);
-    }
+	public void setEaten() {
+		this.wasEaten = true;
+	}
 
+	@Override
+	public boolean canBreed() {
+		return this.getAge() >= getBreedingAge();
+	}
+
+	@Override
+	public boolean isAlive() {
+		if (this.wasEaten) {
+			return false;
+		}
+
+		if (this.getAge() > getMaxAge()) {
+			return false;
+		}
+
+		if (this.getLocation() == null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int getBreedingAge() {
+		return 5;
+	}
+
+	@Override
+	public int getMaxAge() {
+		return 50;
+	}
+
+	@Override
+	public double getBreedingProbability() {
+		return 0.15;
+	}
+
+	@Override
+	public int getMaxLitterSize() {
+		return 5;
+	}
 
 }

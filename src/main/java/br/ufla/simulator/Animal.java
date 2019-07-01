@@ -1,39 +1,35 @@
 package br.ufla.simulator;
 
+import java.util.List;
 import java.util.Random;
 
 public abstract class Animal extends Actor {
 
-    // The Animal age.
-    private int age;
-    // Whether the Animal is alive or not.
-    private boolean alive;
-    // The Animal position
-    private Location location;
-    
-    public Animal() {	
-    	this.age = 0;
-    	this.alive = true;
-    }
+	// idade do animal
+	private int age;
+	// localização que o animal se encontra
+	private Location location;
+	// campo de simulação atual
+	private Field field;
+
+	private static final Random rand = new Random();
+
+	public Animal(Field f, Location l) {
+		this.location = l;
+		this.field = f;
+		this.age = 0;
+	}
 
 	public int getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
-	}
-	
-	/**
-    * Check whether the Animal is alive or not.
-    * @return True if the Animal is still alive.
-    */
-	public boolean isAlive() {
-		return alive;
+	protected void incrementAge() {
+		this.age++;
 	}
 
-	public void setAlive(boolean alive) {
-		this.alive = alive;
+	protected void setAge(int age) {
+		this.age = age;
 	}
 
 	public Location getLocation() {
@@ -43,9 +39,40 @@ public abstract class Animal extends Actor {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
-	public void setLocation(int row, int col){
-	    this.location = new Location(row, col);
+
+	public void setLocation(int row, int col) {
+		this.location = new Location(row, col);
 	}
-    
+
+	public Field getField() {
+		return field;
+	}
+
+	/**
+	 * Generate a number representing the number of births, if it can breed.
+	 * 
+	 * @return The number of births (may be zero).
+	 */
+	public int breed() {
+		int births = 0;
+		if (canBreed() && rand.nextDouble() <= getBreedingProbability()) {
+			births = rand.nextInt(getMaxLitterSize()) + 1;
+		}
+		return births;
+	}
+
+	public abstract boolean canBreed();
+
+	public abstract void act(List<Animal> newAnimals);
+
+	public abstract boolean isAlive();
+
+	public abstract int getBreedingAge();
+
+	public abstract int getMaxAge();
+
+	public abstract double getBreedingProbability();
+
+	public abstract int getMaxLitterSize();
+
 }
