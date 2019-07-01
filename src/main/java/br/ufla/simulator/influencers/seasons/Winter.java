@@ -12,6 +12,7 @@ public class Winter extends Season {
 	}
 
 	private void configurar(int x, double y) {
+
 		Simulator winterSimulation = this.getSimulation();
 		for (Actor animal : winterSimulation.getAnimals()) {
 			if (animal instanceof Fox) {
@@ -31,4 +32,5 @@ public class Winter extends Season {
 	public void onLeave() {
 		configurar(1, 1);
 	}
+	
 }

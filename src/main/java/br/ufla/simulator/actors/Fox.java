@@ -19,7 +19,7 @@ public class Fox extends Animal {
 	// A shared random number generator to control breeding.
 	private static final Random rand = new Random();
 
-	private static int percentual;
+	private static double percentual;
 	// The fox's food level, which is increased by eating rabbits.
 	private int foodLevel;
 
@@ -145,11 +145,11 @@ public class Fox extends Animal {
 		return 3;
 	}
 
-	public void setPercentual(int p) {
+	public void setPercentual(double p) {
 		percentual = p;
 	}
 
-	public int getPercentual() {
+	public double getPercentual() {
 		return percentual;
 	}
 
