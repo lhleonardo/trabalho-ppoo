@@ -31,7 +31,7 @@ public class Field {
 	public Field(int depth, int width) {
 		this.depth = depth;
 		this.width = width;
-		field = new Actor[depth][width];
+		this.field = new Actor[depth][width];
 	}
 
 	/**
@@ -49,23 +49,23 @@ public class Field {
 	 * Place an animal at the given location. If there is already an animal at the
 	 * location it will be lost.
 	 * 
-	 * @param animal The animal to be placed.
-	 * @param row    Row coordinate of the location.
-	 * @param col    Column coordinate of the location.
+	 * @param actor The animal to be placed.
+	 * @param row   Row coordinate of the location.
+	 * @param col   Column coordinate of the location.
 	 */
-	public void place(Actor animal, int row, int col) {
-		place(animal, new Location(row, col));
+	public void place(Actor actor, int row, int col) {
+		place(actor, new Location(row, col));
 	}
 
 	/**
 	 * Place an animal at the given location. If there is already an animal at the
 	 * location it will be lost.
 	 * 
-	 * @param animal   The animal to be placed.
+	 * @param actor    The animal to be placed.
 	 * @param location Where to place the animal.
 	 */
-	public void place(Actor animal, Location location) {
-		field[location.getRow()][location.getCol()] = animal;
+	public void place(Actor actor, Location location) {
+		field[location.getRow()][location.getCol()] = actor;
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class Field {
 	 *         the location parameter, or null if all locations around are full.
 	 */
 	public Location freeAdjacentLocation(Location location) {
-		Iterator adjacent = adjacentLocations(location);
+		Iterator<Location> adjacent = adjacentLocations(location);
 		while (adjacent.hasNext()) {
 			Location next = (Location) adjacent.next();
 			if (field[next.getRow()][next.getCol()] == null) {
@@ -147,10 +147,10 @@ public class Field {
 	 * @param location The location from which to generate adjacencies.
 	 * @return An iterator over locations adjacent to that given.
 	 */
-	public Iterator adjacentLocations(Location location) {
+	public Iterator<Location> adjacentLocations(Location location) {
 		int row = location.getRow();
 		int col = location.getCol();
-		LinkedList locations = new LinkedList();
+		LinkedList<Location> locations = new LinkedList<>();
 		for (int roffset = -1; roffset <= 1; roffset++) {
 			int nextRow = row + roffset;
 			if (nextRow >= 0 && nextRow < depth) {

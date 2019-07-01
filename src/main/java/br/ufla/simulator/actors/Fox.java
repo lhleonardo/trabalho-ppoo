@@ -46,10 +46,10 @@ public class Fox extends Animal {
 	 * process, it might breed, die of hunger, or die of old age.
 	 */
 	@Override
-	public void act(List<Animal> newFoxes) {
+	public void act(List<Actor> newFoxes) {
 		incrementAge();
 		incrementHunger();
-		if (isActive()){
+		if (isActive()) {
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			Field f = this.getField();
@@ -90,9 +90,9 @@ public class Fox extends Animal {
 		Iterator<?> adjacentLocations = field.adjacentLocations(location);
 		while (adjacentLocations.hasNext()) {
 			Location where = (Location) adjacentLocations.next();
-			Object animal = field.getActorAt(where);
-			if (animal instanceof Rabbit) {
-				Rabbit rabbit = (Rabbit) animal;
+			Actor actor = field.getActorAt(where);
+			if (actor instanceof Rabbit) {
+				Rabbit rabbit = (Rabbit) actor;
 				if (rabbit.isActive()) {
 					rabbit.setEaten();
 					foodLevel = RABBIT_FOOD_VALUE;
