@@ -19,7 +19,8 @@ public class Fox extends Animal {
 	private static final int RABBIT_FOOD_VALUE = 4;
 	// A shared random number generator to control breeding.
 	private static final Random rand = new Random();
-	
+
+	private static int percentual;
 	// The fox's food level, which is increased by eating rabbits.
 	private int foodLevel;
 
@@ -31,6 +32,7 @@ public class Fox extends Animal {
 	 */
 	public Fox(Field field, Location location, boolean randomAge) {
 		super(field, location);
+		percentual = 1;
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 			foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
@@ -48,7 +50,7 @@ public class Fox extends Animal {
 	public void act(List<Actor> newFoxes) {
 		incrementAge();
 		incrementHunger();
-		if (isActive()){
+		if (isActive()) {
 			// New foxes are born into adjacent locations.
 			int births = breed();
 			Field f = this.getField();
@@ -75,7 +77,7 @@ public class Fox extends Animal {
 	 * Make this fox more hungry. This could result in the fox's death.
 	 */
 	private void incrementHunger() {
-		foodLevel--;
+		foodLevel -= percentual;
 	}
 
 	/**
@@ -88,6 +90,7 @@ public class Fox extends Animal {
 	private Location findFood(Field field, Location location) {
 		Location newLocation = field.findActor(location, Rabbit.class,1);
 		if (newLocation != null) {
+			((Animal)field.getActorAt(newLocation)).setWasHunted();
 			location = newLocation;
 			return location;
 		}
@@ -141,6 +144,14 @@ public class Fox extends Animal {
 	@Override
 	public int getMaxLitterSize() {
 		return 3;
+	}
+
+	public void setPercentual(int p) {
+		percentual = p;
+	}
+
+	public int getPercentual() {
+		return percentual;
 	}
 
 }

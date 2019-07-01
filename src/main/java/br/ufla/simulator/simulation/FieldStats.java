@@ -15,7 +15,7 @@ import br.ufla.simulator.actors.Actor;
  */
 public class FieldStats {
 	// Counters for each type of entity (fox, rabbit, etc.) in the simulation.
-	private HashMap counters;
+	private HashMap<Class<? extends Actor>, Counter> counters;
 	// Whether the counters are currently up to date.
 	private boolean countsValid;
 
@@ -25,7 +25,7 @@ public class FieldStats {
 	public FieldStats() {
 		// Set up a collection for counters for each type of animal that
 		// we might find
-		counters = new HashMap();
+		counters = new HashMap<>();
 		countsValid = true;
 	}
 
@@ -37,7 +37,7 @@ public class FieldStats {
 		if (!countsValid) {
 			generateCounts(field);
 		}
-		Iterator keys = counters.keySet().iterator();
+		Iterator<Class<? extends Actor>> keys = counters.keySet().iterator();
 		while (keys.hasNext()) {
 			Counter info = (Counter) counters.get(keys.next());
 			buffer.append(info.getName());
@@ -53,7 +53,7 @@ public class FieldStats {
 	 */
 	public void reset() {
 		countsValid = false;
-		Iterator keys = counters.keySet().iterator();
+		Iterator<Class<? extends Actor>> keys = counters.keySet().iterator();
 		while (keys.hasNext()) {
 			Counter cnt = (Counter) counters.get(keys.next());
 			cnt.reset();
@@ -63,7 +63,7 @@ public class FieldStats {
 	/**
 	 * Increment the count for one class of animal.
 	 */
-	public void incrementCount(Class animalClass) {
+	public void incrementCount(Class<? extends Actor> animalClass) {
 		Counter cnt = (Counter) counters.get(animalClass);
 		if (cnt == null) {
 			// we do not have a counter for this species yet - create one
@@ -92,7 +92,7 @@ public class FieldStats {
 		if (!countsValid) {
 			generateCounts(field);
 		}
-		Iterator keys = counters.keySet().iterator();
+		Iterator<Class<? extends Actor>> keys = counters.keySet().iterator();
 		while (keys.hasNext()) {
 			Counter info = (Counter) counters.get(keys.next());
 			if (info.getCount() > 0) {

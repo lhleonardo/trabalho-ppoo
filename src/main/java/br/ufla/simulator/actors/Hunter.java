@@ -11,6 +11,7 @@ public class Hunter implements Actor {
 	
 	@Override
 	public void act(List<Actor> newAnimals) {
+
 		if (isActive()) {
 			this.hunt();
 		}
