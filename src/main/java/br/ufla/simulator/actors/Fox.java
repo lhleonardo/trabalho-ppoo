@@ -49,10 +49,11 @@ public class Fox extends Animal {
 	public void act(List<Actor> newFoxes) {
 		incrementAge();
 		incrementHunger();
+		Field f = this.getField();
+		Location newLocation = null;
 		if (isActive()) {
 			// New foxes are born into adjacent locations.
 			int births = breed();
-			Field f = this.getField();
 			for (int b = 0; b < births; b++) {
 				Fox newFox = new Fox(f, this.getLocation(), false);
 				newFoxes.add(newFox);
@@ -61,15 +62,18 @@ public class Fox extends Animal {
 				f.place(newFox, loc);
 			}
 			// Move towards the source of food if found.
-			Location newLocation = findFood(f, this.getLocation());
+			newLocation = findFood(f, this.getLocation());
 			if (newLocation == null) { // no food found - move randomly
 				newLocation = f.freeAdjacentLocation(this.getLocation());
 			}
-			setLocation(newLocation);
-			if (newLocation != null) {
-				f.place(this, newLocation);
-			}
+
 		}
+		f.place(null, getLocation());
+		setLocation(newLocation);
+		if (newLocation != null) {
+			f.place(this, newLocation);
+		}
+
 	}
 
 	/**
@@ -87,29 +91,27 @@ public class Fox extends Animal {
 	 * @return Where food was found, or null if it wasn't.
 	 */
 	private Location findFood(Field field, Location location) {
-		Location newLocation = field.findActor(location, Rabbit.class,1);
+		Location newLocation = field.findActor(location, Rabbit.class, 1);
 		if (newLocation != null) {
 			((Animal)field.getActorAt(newLocation)).setWasHunted();
+
 			location = newLocation;
+			this.foodLevel += RABBIT_FOOD_VALUE;
 			return location;
 		}
 		return null;
-		
-	}
-	
-	public void setWasHunted() {
-		this.setWasHunted();
+
 	}
 
 	@Override
 	public boolean isActive() {
-		if(this.getWasHunted()) {
+		if (this.getWasHunted()) {
 			return false;
 		}
 		if (foodLevel <= 0) {
 			return false;
 		}
-		
+
 		if (this.getAge() > getMaxAge()) {
 			return false;
 		}
@@ -132,12 +134,12 @@ public class Fox extends Animal {
 
 	@Override
 	public int getMaxAge() {
-		return 150;
+		return 20;
 	}
 
 	@Override
 	public double getBreedingProbability() {
-		return 0.09;
+		return 0.15;
 	}
 
 	@Override

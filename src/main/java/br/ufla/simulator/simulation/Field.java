@@ -137,8 +137,9 @@ public class Field {
 		Iterator<?> adjacentLocations = this.adjacentLocations(location, radius);
 		while (adjacentLocations.hasNext()) {
 			Location where = (Location) adjacentLocations.next();
-			Actor animal = this.getActorAt(location);
-			if (animal.getClass().isInstance(actorType)) {
+			Actor animal = this.getActorAt(where);
+			if (animal != null && animal.getClass().equals(actorType)) {
+//				System.out.println("Animal founded. Type: " + animal.getClass().getCanonicalName());
 				return where;
 			}
 		}

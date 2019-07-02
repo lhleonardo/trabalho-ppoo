@@ -52,16 +52,14 @@ public abstract class Animal implements Actor {
 	public Field getField() {
 		return field;
 	}
-	
+
 	public boolean getWasHunted() {
 		return wasHunted;
 	}
-	
+
 	public void setWasHunted() {
 		wasHunted = true;
 	}
-	
-	
 
 	/**
 	 * Generate a number representing the number of births, if it can breed.

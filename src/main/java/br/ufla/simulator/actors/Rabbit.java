@@ -24,7 +24,7 @@ public class Rabbit extends Animal {
 	 */
 	public Rabbit(Field field, Location location, boolean randomAge) {
 		super(field, location);
-		percentual=1;
+		percentual = 1;
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 		}
@@ -38,6 +38,7 @@ public class Rabbit extends Animal {
 	public void act(List<Actor> newRabbits) {
 		incrementAge();
 		Field f = this.getField();
+		Location newLocation = null;
 		if (this.isActive()) {
 			int births = breed();
 			for (int b = 0; b < births; b++) {
@@ -47,17 +48,14 @@ public class Rabbit extends Animal {
 				newRabbit.setLocation(loc);
 				f.place(newRabbit, loc);
 			}
-			Location newLocation = f.freeAdjacentLocation(this.getLocation());
-			// Only transfer to the updated field if there was a free location
-			setLocation(newLocation);
-			if (newLocation != null) {
-				f.place(this, newLocation);
-			}
+			newLocation = f.freeAdjacentLocation(this.getLocation());
 		}
-	}
-
-	public void setWasHunted() {
-		this.setWasHunted();
+		// Only transfer to the updated field if there was a free location
+		f.place(null, getLocation());
+		setLocation(newLocation);
+		if (newLocation != null) {
+			f.place(this, newLocation);
+		}
 	}
 
 	@Override
@@ -94,26 +92,23 @@ public class Rabbit extends Animal {
 
 	@Override
 	public double getBreedingProbability() {
-		return 0.15*this.getPercentual();
+		return 0.08 * percentual;
 	}
 
 	@Override
 	public int getMaxLitterSize() {
 		return 5;
 	}
-	public void setPercentual(double p) {
-        percentual = p;
-    }
-	
-	public double getPercentual() {
-		return percentual;
-	}
-	public int breed() {
-	    if (this.getBreedingProbability() == 0.1275) {
-	        return getMaxLitterSize();
-	    }
-	    return super.breed();
+
+	public static void setPercentual(double p) {
+		percentual = p;
 	}
 
+	public int breed() {
+		if (this.getBreedingProbability() == 0.1275) {
+			return getMaxLitterSize();
+		}
+		return super.breed();
+	}
 
 }

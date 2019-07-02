@@ -13,6 +13,11 @@ import java.util.Random;
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.Fox;
 import br.ufla.simulator.actors.Rabbit;
+import br.ufla.simulator.influencers.seasons.Autumn;
+import br.ufla.simulator.influencers.seasons.Season;
+import br.ufla.simulator.influencers.seasons.Spring;
+import br.ufla.simulator.influencers.seasons.Summer;
+import br.ufla.simulator.influencers.seasons.Winter;
 import br.ufla.simulator.simulation.view.SimulatorView;
 
 public class Simulator {
@@ -23,69 +28,18 @@ public class Simulator {
 	// The default depth of the grid.
 	private static final int DEFAULT_DEPTH = 50;
 
+	// steps to change seasons
+	private static final int STEPS_FOR_AUTUMN = 31;
+	private static final int STEPS_FOR_WINTER = 23;
+	private static final int STEPS_FOR_SPRING = 23;
+	private static final int STEPS_FOR_SUMMER = 23;
+
 	private static Map<Occurrence, Creator> probabilities;
 
 	static {
 		probabilities = new HashMap<>();
 		probabilities.put(new Occurrence(Fox.class, 0.02), (field, location) -> new Fox(field, location, true));
 		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
-	}
-
-	private static interface Creator {
-		Actor create(Field f, Location l);
-	}
-
-	private static class Occurrence implements Comparable<Occurrence> {
-		private final Class<? extends Actor> from;
-		private final double probability;
-
-		public Occurrence(Class<? extends Actor> from, double probability) {
-			this.from = from;
-			this.probability = probability;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((from == null) ? 0 : from.hashCode());
-			long temp;
-			temp = Double.doubleToLongBits(probability);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Occurrence other = (Occurrence) obj;
-			if (from == null) {
-				if (other.from != null)
-					return false;
-			} else if (!from.equals(other.from))
-				return false;
-			if (Double.doubleToLongBits(probability) != Double.doubleToLongBits(other.probability))
-				return false;
-			return true;
-		}
-
-		@Override
-		public int compareTo(Occurrence o) {
-			if (this.probability > o.probability) {
-				return 1;
-			}
-
-			if (this.probability < o.probability) {
-				return -1;
-			}
-			return 0;
-		}
-
 	}
 
 	// The list of animals in the field and new actors just will be created
@@ -96,6 +50,10 @@ public class Simulator {
 	private int step;
 	// A graphical view of the simulation.
 	private SimulatorView view;
+
+	private final Season[] seasons = { new Autumn(this), new Winter(this), new Spring(this), new Summer(this) };
+	private int currentSeason = 0;
+	private int stepsInCurrentSeason = 1;
 
 	/**
 	 * Construct a simulation field with default size.
@@ -161,6 +119,7 @@ public class Simulator {
 			animal.act(newActors);
 			if (!animal.isActive()) {
 				iter.remove();
+				actors.remove(animal);
 			}
 		}
 		// add new born animals to the list of animals
@@ -187,6 +146,63 @@ public class Simulator {
 		return actors;
 	}
 
+	private static interface Creator {
+		Actor create(Field f, Location l);
+	}
+
+	private static class Occurrence implements Comparable<Occurrence> {
+		private final Class<? extends Actor> from;
+		private final double probability;
+
+		public Occurrence(Class<? extends Actor> from, double probability) {
+			this.from = from;
+			this.probability = probability;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((from == null) ? 0 : from.hashCode());
+			long temp;
+			temp = Double.doubleToLongBits(probability);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Occurrence other = (Occurrence) obj;
+			if (from == null) {
+				if (other.from != null)
+					return false;
+			} else if (!from.equals(other.from))
+				return false;
+			if (Double.doubleToLongBits(probability) != Double.doubleToLongBits(other.probability))
+				return false;
+			return true;
+		}
+
+		@Override
+		public int compareTo(Occurrence o) {
+			if (this.probability > o.probability) {
+				return 1;
+			}
+
+			if (this.probability < o.probability) {
+				return -1;
+			}
+			return 0;
+		}
+
+	}
+
 	/**
 	 * Populate the field with foxes and rabbits.
 	 */
@@ -208,7 +224,7 @@ public class Simulator {
 					Occurrence current = iterador.next();
 
 					if (chance <= current.probability) {
-						System.out.println("Um novo ator foi criado. Tipo: " + current.from.getName());
+//						System.out.println("Um novo ator foi criado. Tipo: " + current.from.getName());
 
 						Actor animal = Simulator.probabilities.get(current).create(field, new Location(row, col));
 						actors.add(animal);
