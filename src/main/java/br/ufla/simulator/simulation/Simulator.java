@@ -12,6 +12,7 @@ import java.util.Random;
 
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.Hunter;
 import br.ufla.simulator.actors.Rabbit;
 import br.ufla.simulator.influencers.seasons.Autumn;
 import br.ufla.simulator.influencers.seasons.Season;
@@ -40,6 +41,7 @@ public class Simulator {
 		probabilities = new HashMap<>();
 		probabilities.put(new Occurrence(Fox.class, 0.02), (field, location) -> new Fox(field, location, true));
 		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
+		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
 	}
 
 	// The list of animals in the field and new actors just will be created

@@ -147,25 +147,30 @@ public class Field {
 	}
 
 	public Location moveToNearestFox(Location location) {
+		
 		Location actorLocation = null;
 		int y = 3;
-		while (actorLocation == null) {
+		while (actorLocation == null && y != 100) {
 			actorLocation = this.findActor(location, Fox.class, y);
+			y += 1;
 		}
-		Location newLocation = location;
-		if (actorLocation.getRow() > location.getRow()) {
-			newLocation.setRowPlus(1);
-		} else if (actorLocation.getRow() < location.getRow()) {
-			newLocation.setRowPlus(-1);
-		}
-		if (actorLocation.getCol() > location.getCol()) {
-			newLocation.setColPlus(1);
-		} else if (actorLocation.getCol() < location.getCol()) {
-			newLocation.setColPlus(-1);
-		}
-
-		if (this.getActorAt(newLocation) == null) {
-			return newLocation;
+		
+		if (actorLocation != null) {
+			Location newLocation = new Location (location.getRow(),location.getCol());
+			if (actorLocation.getRow() > location.getRow()) {
+				newLocation.setRowPlus(1);
+			} else if (actorLocation.getRow() < location.getRow()) {
+				newLocation.setRowPlus(-1);
+			}
+			if (actorLocation.getCol() > location.getCol()) {
+				newLocation.setColPlus(1);
+			} else if (actorLocation.getCol() < location.getCol()) {
+				newLocation.setColPlus(-1);
+			}
+	
+			if (this.getActorAt(newLocation) == null) {
+				return newLocation;
+			}
 		}
 		return null;
 	}

@@ -92,7 +92,7 @@ public class Rabbit extends Animal {
 
 	@Override
 	public double getBreedingProbability() {
-		return 0.08 * percentual;
+		return 0.02 * percentual;
 	}
 
 	@Override

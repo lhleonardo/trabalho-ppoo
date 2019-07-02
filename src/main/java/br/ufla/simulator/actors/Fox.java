@@ -134,7 +134,7 @@ public class Fox extends Animal {
 
 	@Override
 	public int getMaxAge() {
-		return 20;
+		return 50;
 	}
 
 	@Override
