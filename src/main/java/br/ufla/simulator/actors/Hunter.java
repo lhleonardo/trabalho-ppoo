@@ -43,7 +43,6 @@ public class Hunter implements Actor {
 		Location newLocation = field.findActor(location, Fox.class,2);
 		if (newLocation != null) {
 			((Animal)field.getActorAt(newLocation)).setWasHunted();
-			field.place(null,this.location);
 			field.place(this,newLocation);
 			location = newLocation;
 			return newLocation;
