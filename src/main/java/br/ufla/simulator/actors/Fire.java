@@ -7,7 +7,7 @@ import java.util.Random;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
-public class Fire implements Actor {
+public class Fire implements NaturalEvent {
 
 	private static final int MAX_SIZE = 20;
 	private static final int MAX_DURATION = 3;
@@ -38,22 +38,25 @@ public class Fire implements Actor {
 			int x = random.nextInt(maxWidth);
 			int y = random.nextInt(maxDepth);
 
-			this.criarQuadradoDeFogo(new Location(x, y), random.nextInt(MAX_SIZE));
+			this.createFireblocks(new Location(x, y), random.nextInt(MAX_SIZE));
 
 		} else {
 			if (this.duration == MAX_DURATION) {
-				// remover o fogo do mapa
-				for (Location l : this.locations) {
-					this.field.place(null, l);
-				}
+				this.clear();
 			}
-
 			// deixa o fogo no mapa um pouquinho
 			this.duration++;
 		}
 	}
 
-	private void criarQuadradoDeFogo(Location baseLocation, int tamanho) {
+	public void clear() {
+		// remover o fogo do mapa
+		for (Location l : this.locations) {
+			this.field.place(null, l);
+		}
+	}
+
+	private void createFireblocks(Location baseLocation, int tamanho) {
 		int startRow = baseLocation.getRow() - tamanho >= 0 ? baseLocation.getRow() - tamanho : 0;
 		int endRow = baseLocation.getRow() + tamanho <= this.field.getWidth() ? baseLocation.getRow() + tamanho
 				: this.field.getWidth();
