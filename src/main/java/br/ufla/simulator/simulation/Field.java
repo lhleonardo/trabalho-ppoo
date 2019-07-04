@@ -8,6 +8,13 @@ import java.util.Random;
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.principal.Fox;
 
+/**
+ * Represent a rectangular grid of field positions. Each position is able to
+ * store a single animal.
+ * 
+ * @author David J. Barnes and Michael Kolling
+ * @version 2002-04-09
+ */
 public class Field {
 	private static final Random rand = new Random();
 
@@ -135,10 +142,12 @@ public class Field {
 
 	/**
 	 * Procura pelo ator mais proximo baseado no raio recebido como parâmetro.
-	 * @param location recebe a localização base de onde deseja começar a fazer a busca
+	 * 
+	 * @param location  recebe a localização base de onde deseja começar a fazer a
+	 *                  busca
 	 * @param actorType tipo do ator a ser encontrado
-	 * @param radius raio de busca
-	 * @return retorna a localização de um  actor aleatório dentro do raio de procura
+	 * @param radius    raio de busca
+	 * @return retorna a localização de um actor aleatório dentro do raio de procura
 	 */
 	public Location findActor(Location location, Class<?> actorType, int radius) {
 		Iterator<?> adjacentLocations = this.adjacentLocations(location, radius);
@@ -151,11 +160,14 @@ public class Field {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Metodo busca pela raposa mais dentro de uma raio maximo de 100.
-	 * @param location recebe a localização base de onde deseja começar a fazer a busca
-	 * @return retorna a localização de uma raposa no mapa dentro de um raio de 100. caso contrario retorna null
+	 * 
+	 * @param location recebe a localização base de onde deseja começar a fazer a
+	 *                 busca
+	 * @return retorna a localização de uma raposa no mapa dentro de um raio de 100.
+	 *         caso contrario retorna null
 	 */
 	public Location moveToNearestFox(Location location) {
 
@@ -185,12 +197,14 @@ public class Field {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Metodo que faz uma busca de todos as localizações adjacentes a uma posicao base.
-	 * Buscando em base em um raio recebido como parâmetro
-	 * @param location recebe a localização base de onde deseja começar a fazer a busca
-	 * @param x valor raio de busca
+	 * Metodo que faz uma busca de todos as localizações adjacentes a uma posicao
+	 * base. Buscando em base em um raio recebido como parâmetro
+	 * 
+	 * @param location recebe a localização base de onde deseja começar a fazer a
+	 *                 busca
+	 * @param x        valor raio de busca
 	 * @return retorna o iterador da lista.
 	 */
 	public Iterator<Location> adjacentLocations(Location location, int x) {

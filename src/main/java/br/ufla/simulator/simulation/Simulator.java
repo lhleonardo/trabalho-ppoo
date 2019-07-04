@@ -1,50 +1,56 @@
 package br.ufla.simulator.simulation;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import br.ufla.simulator.actors.Actor;
-import br.ufla.simulator.actors.principal.Fox;
-import br.ufla.simulator.actors.principal.Hunter;
-import br.ufla.simulator.actors.principal.Rabbit;
 import br.ufla.simulator.influencers.seasons.Autumn;
 import br.ufla.simulator.influencers.seasons.Season;
+import br.ufla.simulator.simulation.population.Population;
 import br.ufla.simulator.simulation.view.SimulatorView;
 
+/**
+ * Representação de uma simulação. Esta classe manipula todo o ciclo de vida da
+ * simulação. Nela estão contidos os atores, manipulação inicial do campo e
+ * controle da interface gráfica.
+ * 
+ * @author lhleo
+ *
+ */
 public class Simulator {
-	private static Map<Occurrence, Creator> probabilities;
 
-	static {
-		probabilities = new HashMap<>();
-		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
-		probabilities.put(new Occurrence(Fox.class, 0.02), (field, location) -> new Fox(field, location, true));
-		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
-	}
-	// The private static final variables represent
-	// configuration information for the simulation.
-	// The default width for the grid.
+	// valor padrão de largura da tela e, consequentemente, do tamanho do campo
 	private static final int DEFAULT_WIDTH = 50;
-	// The default depth of the grid.
+	// valor padrão de profundidade da tela e, consequentemente, do tamanho do campo
 	private static final int DEFAULT_DEPTH = 50;
 
 	private int step;
 	private Season currentSeason;
+	private Population population;
 
 	private Field field;
 	private List<Actor> actors;
 
 	private SimulatorView view;
 
+	/**
+	 * Construtor padrão que inicializa uma simulação com o tamanho de janela
+	 * presente em {@value #DEFAULT_WIDTH} e {@value #DEFAULT_DEPTH}.
+	 * 
+	 * Inicialização conta com população aleatória dos atores presentes.
+	 */
 	public Simulator() {
 		this(DEFAULT_DEPTH, DEFAULT_WIDTH);
 	}
 
+	/**
+	 * Construtor de uma simulação, com dimensões de tamanho variável. Caso valores
+	 * sejam inválidos, é utilizado os valores padrões das dimensões presentes em
+	 * {@value #DEFAULT_WIDTH} e {@value #DEFAULT_DEPTH}.
+	 * 
+	 * @param depth - Profundidade
+	 * @param width - Largura
+	 */
 	public Simulator(int depth, int width) {
 		if (width <= 0 || depth <= 0) {
 			System.out.println("The dimensions must be greater than zero.");
@@ -60,13 +66,24 @@ public class Simulator {
 		this.currentSeason = new Autumn(this.actors, this.field);
 
 		this.view = new SimulatorView(depth, width);
-		this.populate();
+		this.population = new Population(field, actors);
+		this.population.populate();
 	}
 
+	/**
+	 * Realiza um único passo da simulação a partir do seu estado atual.
+	 */
 	public final void simulate() {
 		this.simulate(1);
 	}
 
+	/**
+	 * Simulação de um número finito de passos e exibe após sua finalização.
+	 * Sequência de simulações influenciam na existência dos atores e na estação
+	 * climática atual, juntamente com os eventos climáticos.
+	 * 
+	 * @param steps - quantidade de passos que deverá ser executados
+	 */
 	public final void simulate(int steps) {
 		for (int i = 0; i < steps; i++) {
 			this.executeStep();
@@ -75,13 +92,24 @@ public class Simulator {
 		this.view.showStatus(this.step, field);
 	}
 
+	/**
+	 * Restaura os valores para simulação. Utilizado para reinicialização de
+	 * simulação.
+	 */
 	public void reset() {
 		this.field.clear();
 		this.actors.clear();
+		this.step = 1;
 
 		this.view.showStatus(step, field);
 	}
 
+	/**
+	 * Método que realiza o passo da simulação. A variável de etapas da simulação é
+	 * manipulada e a estação do ano é prosseguida caso necessário.
+	 * 
+	 * @see Season
+	 */
 	private void executeStep() {
 		this.step++;
 		this.currentSeason.simulateOneStep();
@@ -91,97 +119,5 @@ public class Simulator {
 
 			this.currentSeason = this.currentSeason.prepareToNextSeason();
 		}
-	}
-
-	private static interface Creator {
-		Actor create(Field f, Location l);
-	}
-
-	private static class Occurrence implements Comparable<Occurrence> {
-		private final Class<? extends Actor> from;
-		private final double probability;
-
-		public Occurrence(Class<? extends Actor> from, double probability) {
-			this.from = from;
-			this.probability = probability;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((from == null) ? 0 : from.hashCode());
-			long temp;
-			temp = Double.doubleToLongBits(probability);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Occurrence other = (Occurrence) obj;
-			if (from == null) {
-				if (other.from != null)
-					return false;
-			} else if (!from.equals(other.from))
-				return false;
-			if (Double.doubleToLongBits(probability) != Double.doubleToLongBits(other.probability))
-				return false;
-			return true;
-		}
-
-		@Override
-		public int compareTo(Occurrence o) {
-			if (this.probability > o.probability) {
-				return 1;
-			}
-
-			if (this.probability < o.probability) {
-				return -1;
-			}
-			return 0;
-		}
-
-	}
-
-	/**
-	 * Populate the field with foxes and rabbits.
-	 */
-	private void populate() {
-		Random rand = new Random();
-		field.clear();
-
-		List<Occurrence> occurrences = new LinkedList<>(Simulator.probabilities.keySet());
-		Collections.sort(occurrences);
-
-		for (int row = 0; row < field.getDepth(); row++) {
-			for (int col = 0; col < field.getWidth(); col++) {
-				boolean isCreated = false;
-				double chance = rand.nextDouble();
-
-				Iterator<Occurrence> iterador = occurrences.iterator();
-
-				while (iterador.hasNext() && isCreated == false) {
-					Occurrence current = iterador.next();
-
-					if (chance <= current.probability) {
-//						System.out.println("Um novo ator foi criado. Tipo: " + current.from.getName());
-
-						Actor animal = Simulator.probabilities.get(current).create(field, new Location(row, col));
-						actors.add(animal);
-						field.place(animal, row, col);
-						isCreated = true;
-					}
-				}
-				// else leave the location empty.
-			}
-		}
-		Collections.shuffle(actors);
 	}
 }

@@ -43,8 +43,8 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * Isto é o que a raposa faz a maior parte do tempo: caça por coelhos.
-	 * No processo, pode se reproduzir, morrer de fome ou morrer de velhice.
+	 * Isto é o que a raposa faz a maior parte do tempo: caça por coelhos. No
+	 * processo, pode se reproduzir, morrer de fome ou morrer de velhice.
 	 */
 	@Override
 	public void act(List<Actor> newFoxes) {
@@ -80,7 +80,7 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 *Faça essa raposa mais faminta. Isso pode resultar na morte da raposa.
+	 * Faça essa raposa mais faminta. Isso pode resultar na morte da raposa.
 	 */
 	private void incrementHunger() {
 		foodLevel -= foodBuffer;
