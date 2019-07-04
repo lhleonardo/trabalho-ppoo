@@ -24,8 +24,7 @@ public class Fox extends Animal {
 	private int foodLevel;
 
 	/**
-	 * Create a fox. A fox can be created as a new born (age zero and not hungry) or
-	 * with random age.
+	 * Cria a raposa. A raposa pode ser criaca com idade zero ou uma idade aleatoria
 	 * 
 	 * @param randomAge If true, the fox will have random age and hunger level.
 	 */
@@ -42,8 +41,8 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * This is what the fox does most of the time: it hunts for rabbits. In the
-	 * process, it might breed, die of hunger, or die of old age.
+	 * Isto é o que a raposa faz a maior parte do tempo: caça por coelhos.
+	 * No processo, pode se reproduzir, morrer de fome ou morrer de velhice.
 	 */
 	@Override
 	public void act(List<Actor> newFoxes) {
@@ -68,23 +67,25 @@ public class Fox extends Animal {
 			}
 
 		}
-		f.place(null, getLocation());
-		setLocation(newLocation);
-		if (newLocation != null) {
-			f.place(this, newLocation);
+		if (getLocation() != null) {
+			f.place(null, getLocation());
+			setLocation(newLocation);
+			if (newLocation != null) {
+				f.place(this, newLocation);
+			}
 		}
 
 	}
 
 	/**
-	 * Make this fox more hungry. This could result in the fox's death.
+	 *Faça essa raposa mais faminta. Isso pode resultar na morte da raposa.
 	 */
 	private void incrementHunger() {
 		foodLevel -= percentual;
 	}
 
 	/**
-	 * Tell the fox to look for rabbits adjacent to its current location.
+	 * Diga à raposa para procurar por coelhos adjacentes à sua localização atual.
 	 * 
 	 * @param field    The field in which it must look.
 	 * @param location Where in the field it is located.

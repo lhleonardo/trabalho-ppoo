@@ -133,24 +133,35 @@ public class Field {
 		}
 	}
 
+	/**
+	 * Procura pelo ator mais proximo baseado no raio recebido como parâmetro.
+	 * @param location recebe a localização base de onde deseja começar a fazer a busca
+	 * @param actorType tipo do ator a ser encontrado
+	 * @param radius raio de busca
+	 * @return retorna a localização de um  actor aleatório dentro do raio de procura
+	 */
 	public Location findActor(Location location, Class<?> actorType, int radius) {
 		Iterator<?> adjacentLocations = this.adjacentLocations(location, radius);
 		while (adjacentLocations.hasNext()) {
 			Location where = (Location) adjacentLocations.next();
 			Actor animal = this.getActorAt(where);
 			if (animal != null && animal.getClass().equals(actorType)) {
-//				System.out.println("Animal founded. Type: " + animal.getClass().getCanonicalName());
 				return where;
 			}
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Metodo busca pela raposa mais dentro de uma raio maximo de 100.
+	 * @param location recebe a localização base de onde deseja começar a fazer a busca
+	 * @return retorna a localização de uma raposa no mapa dentro de um raio de 100. caso contrario retorna null
+	 */
 	public Location moveToNearestFox(Location location) {
 		
 		Location actorLocation = null;
 		int y = 3;
-		while (actorLocation == null && y != 100) {
+		while (actorLocation == null && y != 101) {
 			actorLocation = this.findActor(location, Fox.class, y);
 			y += 1;
 		}
@@ -174,7 +185,14 @@ public class Field {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Metodo que faz uma busca de todos as localizações adjacentes a uma posicao base.
+	 * Buscando em base em um raio recebido como parâmetro
+	 * @param location recebe a localização base de onde deseja começar a fazer a busca
+	 * @param x valor raio de busca
+	 * @return retorna o iterador da lista.
+	 */
 	public Iterator<Location> adjacentLocations(Location location, int x) {
 		int row = location.getRow();
 		int col = location.getCol();

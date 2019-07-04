@@ -13,7 +13,7 @@ public class Counter {
 	private String name;
 	// How many of this type exist in the simulation.
 	private int count;
-
+	
 	/**
 	 * Provide a name for one of the simulation types.
 	 * 

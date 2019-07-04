@@ -17,8 +17,7 @@ public class Rabbit extends Animal {
 	private static double percentual;
 
 	/**
-	 * Create a new rabbit. A rabbit may be created with age zero (a new born) or
-	 * with a random age.
+	 * Cria um novo coelho. O coelho pode ser criaco com a idade 0 ou com uma idade aleatorio
 	 * 
 	 * @param randomAge If true, the rabbit will have a random age.
 	 */
@@ -31,8 +30,8 @@ public class Rabbit extends Animal {
 	}
 
 	/**
-	 * This is what the rabbit does most of the time - it runs around. Sometimes it
-	 * will breed or die of old age.
+	 * Isso é o que o coelho faz quase tempo todo - eles corre . As vezes ele 
+	 * irá procriar, ou morrer por idade.
 	 */
 	@Override
 	public void act(List<Actor> newRabbits) {
