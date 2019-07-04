@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import br.ufla.simulator.actors.Actor;
-import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.principal.Fox;
+import br.ufla.simulator.actors.principal.Rabbit;
 import br.ufla.simulator.simulation.Field;
-import br.ufla.simulator.actors.Rabbit;
 
 public class Winter extends Season {
 
@@ -26,7 +26,6 @@ public class Winter extends Season {
 				iter.remove();
 			}
 		}
-		// add new born animals to the list of animals
 
 		this.getActors().addAll(newActors);
 	}
@@ -38,8 +37,8 @@ public class Winter extends Season {
 
 	@Override
 	public Season prepareToNextSeason() {
-		Rabbit.setPercentual(1);
-		Fox.setPercentual(1);
+		Rabbit.setBreedingBuffer(1);
+		Fox.setFoodBuffer(1);
 		return new Autumn(getActors(), getField());
 	}
 

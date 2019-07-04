@@ -1,8 +1,10 @@
-package br.ufla.simulator.actors;
+package br.ufla.simulator.actors.principal;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Random;
 
+import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
@@ -60,6 +62,18 @@ public class Rabbit extends Animal {
 	}
 
 	@Override
+	public int breed() {
+		if (breedingBuffer == 0.85) {
+			if (canBreed() && rand.nextDouble() <= getBreedingProbability()) {
+				return getMaxLitterSize();
+			} else {
+				return 0;
+			}
+		}
+		return super.breed();
+	}
+
+	@Override
 	public boolean canBreed() {
 		return this.getAge() >= getBreedingAge();
 	}
@@ -101,15 +115,13 @@ public class Rabbit extends Animal {
 		return 5;
 	}
 
-	public static void setBreedingBuffer(double p) {
-		breedingBuffer = p;
+	@Override
+	public Color getColorRepresentation() {
+		return Color.orange;
 	}
 
-	public int breed() {
-		if (breedingBuffer == 0.85) {
-			return getMaxLitterSize();
-		}
-		return super.breed();
+	public static void setBreedingBuffer(double p) {
+		breedingBuffer = p;
 	}
 
 }

@@ -1,8 +1,9 @@
-package br.ufla.simulator.actors;
+package br.ufla.simulator.actors.principal;
 
 import java.util.List;
 import java.util.Random;
 
+import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 

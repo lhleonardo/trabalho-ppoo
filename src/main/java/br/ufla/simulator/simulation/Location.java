@@ -67,10 +67,11 @@ public class Location {
 	public int getCol() {
 		return col;
 	}
-	
+
 	public void setRowPlus(int row) {
 		this.row += row;
 	}
+
 	public void setColPlus(int col) {
 		this.col += col;
 	}

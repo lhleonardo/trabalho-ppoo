@@ -1,7 +1,9 @@
-package br.ufla.simulator.actors;
+package br.ufla.simulator.actors.principal;
 
+import java.awt.Color;
 import java.util.List;
 
+import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
@@ -53,5 +55,10 @@ public class Hunter implements Actor {
 	@Override
 	public boolean isActive() {
 		return true;
+	}
+
+	@Override
+	public Color getColorRepresentation() {
+		return Color.green;
 	}
 }

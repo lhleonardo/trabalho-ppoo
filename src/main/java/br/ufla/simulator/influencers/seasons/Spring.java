@@ -1,21 +1,25 @@
 package br.ufla.simulator.influencers.seasons;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import br.ufla.simulator.actors.Actor;
-import br.ufla.simulator.actors.Flood;
-import br.ufla.simulator.actors.Rabbit;
+import br.ufla.simulator.actors.events.Flood;
+import br.ufla.simulator.actors.principal.Hunter;
+import br.ufla.simulator.actors.principal.Rabbit;
 import br.ufla.simulator.simulation.Field;
 
 public class Spring extends Season {
 
 	private Flood oneFlood;
 
+	private List<Hunter> hunters;
+
 	public Spring(List<Actor> actors, Field field) {
 		super(actors, field);
-		Rabbit.setPercentual(1.25);
-
+		this.hunters = new ArrayList<>();
+		Rabbit.setBreedingBuffer(1.25);
 	}
 
 	@Override
@@ -48,7 +52,10 @@ public class Spring extends Season {
 
 	@Override
 	public Season prepareToNextSeason() {
-		oneFlood.clear();
+		if (oneFlood != null)
+			oneFlood.clear();
+
+		Rabbit.setBreedingBuffer(1);
 		return new Winter(getActors(), getField());
 	}
 

@@ -6,7 +6,7 @@ public class Principal {
 	public static void main(String[] args) throws InterruptedException {
 		Simulator simulator = new Simulator(100, 100);
 		while (true) {
-			Thread.sleep(487);
+			Thread.sleep(100);
 			simulator.simulate();
 		}
 	}

@@ -4,10 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import br.ufla.simulator.actors.Actor;
-import br.ufla.simulator.actors.Fire;
-import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.events.Fire;
 import br.ufla.simulator.simulation.Field;
-import br.ufla.simulator.actors.Rabbit;
 
 public class Summer extends Season {
 
@@ -15,7 +13,6 @@ public class Summer extends Season {
 
 	public Summer(List<Actor> actors, Field field) {
 		super(actors, field);
-
 	}
 
 	@Override
