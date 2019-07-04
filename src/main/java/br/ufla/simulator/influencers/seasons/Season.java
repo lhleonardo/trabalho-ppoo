@@ -13,8 +13,6 @@ public abstract class Season {
 	private Field field;
 
 	public Season(List<Actor> actors, Field field) {
-		this.prepare();
-		
 		this.currentDay = 1;
 		this.actors = actors;
 		this.field = field;
@@ -44,10 +42,9 @@ public abstract class Season {
 		return this.field;
 	}
 	
-	public abstract void prepare();
 	protected abstract void execute(List<Actor> newActors);
 	protected abstract int getMaxDuration();
-	public abstract Season getNextSeason();
+	public abstract Season prepareToNextSeason();
 	
 	
 }

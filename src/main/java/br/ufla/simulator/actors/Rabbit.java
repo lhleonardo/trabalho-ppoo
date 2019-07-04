@@ -51,6 +51,9 @@ public class Rabbit extends Animal {
 			newLocation = f.freeAdjacentLocation(this.getLocation());
 		}
 		// Only transfer to the updated field if there was a free location
+		if (getLocation() == null) {
+			System.out.println("Alguma localização de um coelho é nula");
+		}
 		f.place(null, getLocation());
 		setLocation(newLocation);
 		if (newLocation != null) {

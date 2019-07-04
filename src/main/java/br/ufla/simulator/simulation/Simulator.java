@@ -1,5 +1,6 @@
 package br.ufla.simulator.simulation;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,8 +11,8 @@ import java.util.Map;
 import java.util.Random;
 
 import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.actors.Animal;
 import br.ufla.simulator.actors.Fox;
-import br.ufla.simulator.actors.Hunter;
 import br.ufla.simulator.actors.Rabbit;
 import br.ufla.simulator.influencers.seasons.Autumn;
 import br.ufla.simulator.influencers.seasons.Season;
@@ -24,7 +25,7 @@ public class Simulator {
 		probabilities = new HashMap<>();
 		probabilities.put(new Occurrence(Fox.class, 0.02), (field, location) -> new Fox(field, location, true));
 		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
-		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
+//		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
 	}
 	// The private static final variables represent
 	// configuration information for the simulation.
@@ -52,13 +53,15 @@ public class Simulator {
 			depth = DEFAULT_DEPTH;
 			width = DEFAULT_WIDTH;
 		}
-		this.step = 0;
-		this.currentSeason = new Autumn(this.actors, this.field);
 
 		this.field = new Field(depth, width);
 		this.actors = new ArrayList<>();
 
+		this.step = 0;
+		this.currentSeason = new Autumn(this.actors, this.field);
 		this.view = new SimulatorView(depth, width);
+		this.view.setColor(Fox.class, Color.blue);
+		this.view.setColor(Rabbit.class, Color.orange);
 
 		this.populate();
 	}
@@ -72,6 +75,7 @@ public class Simulator {
 			this.executeStep();
 		}
 
+		this.view.showStatus(steps, field);
 	}
 
 	public void reset() {
@@ -88,7 +92,7 @@ public class Simulator {
 		if (this.currentSeason.isEnd()) {
 			this.currentSeason.reset();
 
-			this.currentSeason = this.currentSeason.getNextSeason();
+			this.currentSeason = this.currentSeason.prepareToNextSeason();
 		}
 	}
 
@@ -172,7 +176,10 @@ public class Simulator {
 					if (chance <= current.probability) {
 //						System.out.println("Um novo ator foi criado. Tipo: " + current.from.getName());
 
-						Actor animal = Simulator.probabilities.get(current).create(field, new Location(row, col));
+						Animal animal = (Animal) Simulator.probabilities.get(current).create(field, new Location(row, col));
+						if (animal.getLocation() == null) {
+							System.out.println("Algum animal tem location null");
+						}
 						actors.add(animal);
 						field.place(animal, row, col);
 						isCreated = true;
