@@ -19,7 +19,11 @@ public class Fox extends Animal {
 	// A shared random number generator to control breeding.
 	private static final Random rand = new Random();
 
+<<<<<<< HEAD
 	private static double foodBuffer;
+=======
+	private static double foodBuffer = 1;
+>>>>>>> 0f526651a4789174318d50c18f0932ffcc3b5c93
 	// The fox's food level, which is increased by eating rabbits.
 	private int foodLevel;
 
@@ -31,7 +35,10 @@ public class Fox extends Animal {
 	 */
 	public Fox(Field field, Location location, boolean randomAge) {
 		super(field, location);
+<<<<<<< HEAD
 		foodBuffer = 1;
+=======
+>>>>>>> 0f526651a4789174318d50c18f0932ffcc3b5c93
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 			foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
@@ -149,8 +156,8 @@ public class Fox extends Animal {
 		return 3;
 	}
 
-	public static void setPercentual(double p) {
-		percentual = p;
+	public static void setFoodBuffer(double p) {
+		foodBuffer = p;
 	}
 
 }
