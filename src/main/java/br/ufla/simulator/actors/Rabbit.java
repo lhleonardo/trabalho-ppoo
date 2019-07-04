@@ -14,7 +14,7 @@ import br.ufla.simulator.simulation.Location;
  */
 public class Rabbit extends Animal {
 	private static final Random rand = new Random();
-	private static double percentual;
+	private static double breedingBuffer = 1;
 
 	/**
 	 * Create a new rabbit. A rabbit may be created with age zero (a new born) or
@@ -24,7 +24,6 @@ public class Rabbit extends Animal {
 	 */
 	public Rabbit(Field field, Location location, boolean randomAge) {
 		super(field, location);
-		percentual = 1;
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 		}
@@ -94,7 +93,7 @@ public class Rabbit extends Animal {
 
 	@Override
 	public double getBreedingProbability() {
-		return 0.02 * percentual;
+		return 0.02 * breedingBuffer;
 	}
 
 	@Override
@@ -102,12 +101,12 @@ public class Rabbit extends Animal {
 		return 5;
 	}
 
-	public static void setPercentual(double p) {
-		percentual = p;
+	public static void setBreedingBuffer(double p) {
+		breedingBuffer = p;
 	}
 
 	public int breed() {
-		if (percentual == 0.85) {
+		if (breedingBuffer == 0.85) {
 			return getMaxLitterSize();
 		}
 		return super.breed();

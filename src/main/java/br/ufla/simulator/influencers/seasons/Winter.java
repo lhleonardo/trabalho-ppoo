@@ -8,14 +8,12 @@ import br.ufla.simulator.actors.Fox;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.actors.Rabbit;
 
-
 public class Winter extends Season {
-	
 
 	public Winter(List<Actor> actors, Field field) {
 		super(actors, field);
-		Rabbit.setPercentual(0.85);
-		Fox.setPercentual(2);
+		Rabbit.setBreedingBuffer(0.85);
+		Fox.setFoodBuffer(2);
 	}
 
 	@Override
@@ -29,7 +27,7 @@ public class Winter extends Season {
 			}
 		}
 		// add new born animals to the list of animals
-		
+
 		this.getActors().addAll(newActors);
 	}
 
@@ -42,6 +40,5 @@ public class Winter extends Season {
 	public Season prepareToNextSeason() {
 		return new Winter(getActors(), getField());
 	}
-
 
 }
