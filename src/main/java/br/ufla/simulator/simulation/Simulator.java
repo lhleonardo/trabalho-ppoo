@@ -1,6 +1,5 @@
 package br.ufla.simulator.simulation;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,25 +15,9 @@ import br.ufla.simulator.actors.Hunter;
 import br.ufla.simulator.actors.Rabbit;
 import br.ufla.simulator.influencers.seasons.Autumn;
 import br.ufla.simulator.influencers.seasons.Season;
-import br.ufla.simulator.influencers.seasons.Spring;
-import br.ufla.simulator.influencers.seasons.Summer;
-import br.ufla.simulator.influencers.seasons.Winter;
 import br.ufla.simulator.simulation.view.SimulatorView;
 
 public class Simulator {
-	// The private static final variables represent
-	// configuration information for the simulation.
-	// The default width for the grid.
-	private static final int DEFAULT_WIDTH = 50;
-	// The default depth of the grid.
-	private static final int DEFAULT_DEPTH = 50;
-
-	// steps to change seasons
-	private static final int STEPS_FOR_AUTUMN = 31;
-	private static final int STEPS_FOR_WINTER = 23;
-	private static final int STEPS_FOR_SPRING = 23;
-	private static final int STEPS_FOR_SUMMER = 23;
-
 	private static Map<Occurrence, Creator> probabilities;
 
 	static {
@@ -43,33 +26,25 @@ public class Simulator {
 		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
 		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
 	}
+	// The private static final variables represent
+	// configuration information for the simulation.
+	// The default width for the grid.
+	private static final int DEFAULT_WIDTH = 50;
+	// The default depth of the grid.
+	private static final int DEFAULT_DEPTH = 50;
 
-	// The list of animals in the field and new actors just will be created
-	private List<Actor> actors;
-	// The current state of the field.
-	private Field field;
-	// The current step of the simulation.
 	private int step;
-	// A graphical view of the simulation.
+	private Season currentSeason;
+
+	private Field field;
+	private List<Actor> actors;
+
 	private SimulatorView view;
 
-	private final Season[] seasons = { new Autumn(this), new Winter(this), new Spring(this), new Summer(this) };
-	private int currentSeason = 0;
-	private int stepsInCurrentSeason = 1;
-
-	/**
-	 * Construct a simulation field with default size.
-	 */
 	public Simulator() {
 		this(DEFAULT_DEPTH, DEFAULT_WIDTH);
 	}
 
-	/**
-	 * Create a simulation field with the given size.
-	 * 
-	 * @param depth Depth of the field. Must be greater than zero.
-	 * @param width Width of the field. Must be greater than zero.
-	 */
 	public Simulator(int depth, int width) {
 		if (width <= 0 || depth <= 0) {
 			System.out.println("The dimensions must be greater than zero.");
@@ -77,75 +52,44 @@ public class Simulator {
 			depth = DEFAULT_DEPTH;
 			width = DEFAULT_WIDTH;
 		}
-		actors = new ArrayList<>();
-		field = new Field(depth, width);
+		this.step = 0;
+		this.currentSeason = new Autumn(this.actors, this.field);
 
-		// Create a view of the state of each location in the field.
-		view = new SimulatorView(depth, width);
-		view.setColor(Fox.class, Color.blue);
-		view.setColor(Rabbit.class, Color.orange);
+		this.field = new Field(depth, width);
+		this.actors = new ArrayList<>();
 
-		// Setup a valid starting point.
-		reset();
+		this.view = new SimulatorView(depth, width);
+
+		this.populate();
 	}
 
-	/**
-	 * Run the simulation from its current state for a reasonably long period, e.g.
-	 * 500 steps.
-	 */
-	public void runLongSimulation() {
-		simulate(500);
+	public final void simulate() {
+		this.simulate(1);
 	}
 
-	/**
-	 * Run the simulation from its current state for the given number of steps. Stop
-	 * before the given number of steps if it ceases to be viable.
-	 */
-	public void simulate(int numSteps) {
-		for (int step = 1; step <= numSteps && view.isViable(field); step++) {
-			simulateOneStep();
+	public final void simulate(int steps) {
+		for (int i = 0; i < steps; i++) {
+			this.executeStep();
 		}
+
 	}
 
-	/**
-	 * Run the simulation from its current state for a single step. Iterate over the
-	 * whole field updating the state of each fox and rabbit.
-	 */
-	public void simulateOneStep() {
-		step++;
-
-		// let all animals act
-		List<Actor> newActors = new LinkedList<>();
-		for (Iterator<Actor> iter = actors.iterator(); iter.hasNext();) {
-			Actor animal = (Actor) iter.next();
-			animal.act(newActors);
-			if (!animal.isActive()) {
-				iter.remove();
-				actors.remove(animal);
-			}
-		}
-		// add new born animals to the list of animals
-		actors.addAll(newActors);
-
-		// display the new field on screen
-		view.showStatus(step, field);
-	}
-
-	/**
-	 * Reset the simulation to a starting position.
-	 */
 	public void reset() {
-		step = 0;
-		actors.clear();
-		field.clear();
-		populate(field);
+		this.field.clear();
+		this.actors.clear();
 
-		// Show the starting state in the view.
-		view.showStatus(step, field);
+		this.view.showStatus(step, field);
 	}
 
-	public List<Actor> getAnimals() {
-		return actors;
+	private void executeStep() {
+		this.step++;
+		this.currentSeason.simulateOneStep();
+
+		if (this.currentSeason.isEnd()) {
+			this.currentSeason.reset();
+
+			this.currentSeason = this.currentSeason.getNextSeason();
+		}
 	}
 
 	private static interface Creator {
@@ -208,7 +152,7 @@ public class Simulator {
 	/**
 	 * Populate the field with foxes and rabbits.
 	 */
-	private void populate(Field field) {
+	private void populate() {
 		Random rand = new Random();
 		field.clear();
 

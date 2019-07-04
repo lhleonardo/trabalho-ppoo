@@ -7,7 +7,7 @@ public class Principal {
 		Simulator simulator = new Simulator(100, 100);
 		while (true) {
 			Thread.sleep(100);
-			simulator.simulateOneStep();
+			simulator.simulate();
 		}
 	}
 }

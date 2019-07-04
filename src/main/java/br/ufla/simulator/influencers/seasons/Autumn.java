@@ -1,23 +1,34 @@
 package br.ufla.simulator.influencers.seasons;
 
-import br.ufla.simulator.simulation.Simulator;
+import java.util.List;
 
-public class Autumn extends Season {
+import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.simulation.Field;
 
-	public Autumn(Simulator simulation) {
-		super(simulation);
+public class Autumn extends Season{
+
+	public Autumn(List<Actor> actors, Field field) {
+		super(actors, field);
 	}
 
 	@Override
-	public void onEnter() {
-		// TODO Auto-generated method stub
+	public void prepare() {
 		
 	}
 
 	@Override
-	public void onLeave() {
-		// TODO Auto-generated method stub
+	protected void execute(List<Actor> newActors) {
 		
+	}
+
+	@Override
+	protected int getMaxDuration() {
+		return 0;
+	}
+
+	@Override
+	public Season getNextSeason() {
+		return null;
 	}
 
 }
