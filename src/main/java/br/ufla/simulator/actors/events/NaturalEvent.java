@@ -9,6 +9,16 @@ import br.ufla.simulator.actors.principal.Animal;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
+/**
+ * Representação de um evento natural, que interfere em uma simulação.
+ * 
+ * Esse evento natural aparece no campo, em forma de quadrado, ocupando um
+ * número aleatório de unidades de área e mata todos os elementos dentro desta
+ * área.
+ * 
+ * @author lhleo
+ *
+ */
 public abstract class NaturalEvent implements Actor {
 
 	private Field field;
@@ -18,6 +28,11 @@ public abstract class NaturalEvent implements Actor {
 
 	private static Random random = new Random();
 
+	/**
+	 * Cria um novo evento natural qualquer e recebe a representação atual do campo
+	 * 
+	 * @param field - Campo atual com suas distribuições de atores
+	 */
 	public NaturalEvent(Field field) {
 		this.field = field;
 		this.executed = false;
@@ -49,6 +64,13 @@ public abstract class NaturalEvent implements Actor {
 		this.duration++;
 	}
 
+	/**
+	 * Cria um bloco que representa o evento natural no campo. Esse bloco é de um
+	 * tamanho variado e se posiciona em um local aleatório.
+	 * 
+	 * @param baseLocation - Localização que o evento natural deverá tomar como base
+	 * @param tamanho      - tamanho em blocos que o evento deverá preencher
+	 */
 	protected void createBlock(Location baseLocation, int tamanho) {
 		int startRow = baseLocation.getRow() - tamanho >= 0 ? baseLocation.getRow() - tamanho : 0;
 		int endRow = baseLocation.getRow() + tamanho <= this.field.getWidth() - 1 ? baseLocation.getRow() + tamanho
@@ -73,6 +95,9 @@ public abstract class NaturalEvent implements Actor {
 		}
 	}
 
+	/**
+	 * Apaga todos os eventos do mapa
+	 */
 	public void clear() {
 		// remover o fogo do mapa
 		for (Location l : this.locations) {
@@ -86,7 +111,19 @@ public abstract class NaturalEvent implements Actor {
 		return this.duration <= getMaxDuration();
 	}
 
+	/**
+	 * Define o tamanho máximo que um evento natural poderá ocupar, em número de
+	 * blocos
+	 * 
+	 * @return tamanho máximo
+	 */
 	public abstract int getMaxSize();
 
+	/**
+	 * Define a duração máxima que um evento natural poderá estar presente no mapa,
+	 * dado em passos.
+	 * 
+	 * @return duração máxima
+	 */
 	public abstract int getMaxDuration();
 }
