@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Random;
 
 import br.ufla.simulator.actors.Actor;
-import br.ufla.simulator.actors.Animal;
 import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.Hunter;
 import br.ufla.simulator.actors.Rabbit;
 import br.ufla.simulator.influencers.seasons.Autumn;
 import br.ufla.simulator.influencers.seasons.Season;
@@ -25,7 +25,7 @@ public class Simulator {
 		probabilities = new HashMap<>();
 		probabilities.put(new Occurrence(Fox.class, 0.02), (field, location) -> new Fox(field, location, true));
 		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
-//		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
+		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
 	}
 	// The private static final variables represent
 	// configuration information for the simulation.
@@ -75,7 +75,7 @@ public class Simulator {
 			this.executeStep();
 		}
 
-		this.view.showStatus(steps, field);
+		this.view.showStatus(this.step, field);
 	}
 
 	public void reset() {
@@ -176,10 +176,7 @@ public class Simulator {
 					if (chance <= current.probability) {
 //						System.out.println("Um novo ator foi criado. Tipo: " + current.from.getName());
 
-						Animal animal = (Animal) Simulator.probabilities.get(current).create(field, new Location(row, col));
-						if (animal.getLocation() == null) {
-							System.out.println("Algum animal tem location null");
-						}
+						Actor animal = Simulator.probabilities.get(current).create(field, new Location(row, col));
 						actors.add(animal);
 						field.place(animal, row, col);
 						isCreated = true;
