@@ -107,7 +107,7 @@ public class Rabbit extends Animal {
 	}
 
 	public int breed() {
-		if (this.getBreedingProbability() == 0.1275) {
+		if (percentual == 0.85) {
 			return getMaxLitterSize();
 		}
 		return super.breed();

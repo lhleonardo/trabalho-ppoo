@@ -149,12 +149,8 @@ public class Fox extends Animal {
 		return 3;
 	}
 
-	public void setPercentual(double p) {
+	public static void setPercentual(double p) {
 		percentual = p;
-	}
-
-	public double getPercentual() {
-		return percentual;
 	}
 
 }
