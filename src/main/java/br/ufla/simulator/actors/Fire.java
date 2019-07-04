@@ -39,37 +39,44 @@ public class Fire implements NaturalEvent {
 			int y = random.nextInt(maxDepth);
 
 			this.createFireblocks(new Location(x, y), random.nextInt(MAX_SIZE));
-
+			this.executed=true;
 		} else {
 			if (this.duration == MAX_DURATION) {
 				this.clear();
 			}
 			// deixa o fogo no mapa um pouquinho
-			this.duration++;
+			
 		}
+		this.duration++;
 	}
 
 	public void clear() {
 		// remover o fogo do mapa
+		System.out.println("LEO CABECA");
 		for (Location l : this.locations) {
 			this.field.place(null, l);
 		}
+		this.locations.clear();
 	}
 
 	private void createFireblocks(Location baseLocation, int tamanho) {
 		int startRow = baseLocation.getRow() - tamanho >= 0 ? baseLocation.getRow() - tamanho : 0;
-		int endRow = baseLocation.getRow() + tamanho <= this.field.getWidth() ? baseLocation.getRow() + tamanho
-				: this.field.getWidth();
+		int endRow = baseLocation.getRow() + tamanho <= this.field.getWidth()-1 ? baseLocation.getRow() + tamanho
+				: this.field.getWidth()-1;
 
 		int startColumn = baseLocation.getCol() - tamanho >= 0 ? baseLocation.getCol() - tamanho : 0;
-		int endColumn = baseLocation.getCol() + tamanho <= this.field.getDepth() ? baseLocation.getCol() + tamanho
-				: this.field.getDepth();
+		int endColumn = baseLocation.getCol() + tamanho <= this.field.getDepth()-1 ? baseLocation.getCol() + tamanho
+				: this.field.getDepth()-1;
 
 		for (int i = startRow; i <= endRow; i++) {
 			for (int j = startColumn; j <= endColumn; j++) {
 				Location location = new Location(i, j);
-				Animal actorAt = (Animal) this.field.getActorAt(location);
-				actorAt.setLocation(null);
+				Actor actorAt = this.field.getActorAt(location);
+				if (actorAt instanceof Animal) {
+					if (actorAt != null) {
+						((Animal) actorAt).setLocation(null);
+					}
+				}
 				this.field.place(this, location);
 				this.locations.add(location);
 			}

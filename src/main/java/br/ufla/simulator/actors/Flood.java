@@ -7,7 +7,7 @@ import java.util.Random;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
-public class Flood extends NaturalEvent {
+public class Flood implements NaturalEvent {
 
 	private static final int MAX_SIZE = 20;
 	private static final int MAX_DURATION = 3;
@@ -39,13 +39,11 @@ public class Flood extends NaturalEvent {
 			int y = random.nextInt(maxDepth);
 
 			this.criarQuadradoDeAgua(new Location(x, y), random.nextInt(MAX_SIZE));
-
+			this.executed=true;
 		} else {
 			if (this.duration == MAX_DURATION) {
 				// remover a inundacao do mapa
-				for (Location l : this.locations) {
-					this.field.place(null, l);
-				}
+				clear();
 			}
 
 			// deixa a inundacao no mapa um pouquinho
@@ -55,18 +53,22 @@ public class Flood extends NaturalEvent {
 
 	private void criarQuadradoDeAgua(Location baseLocation, int tamanho) {
 		int startRow = baseLocation.getRow() - tamanho >= 0 ? baseLocation.getRow() - tamanho : 0;
-		int endRow = baseLocation.getRow() + tamanho <= this.field.getWidth() ? baseLocation.getRow() + tamanho
-				: this.field.getWidth();
+		int endRow = baseLocation.getRow() + tamanho <= this.field.getWidth()-1 ? baseLocation.getRow() + tamanho
+				: this.field.getWidth()-1;
 
 		int startColumn = baseLocation.getCol() - tamanho >= 0 ? baseLocation.getCol() - tamanho : 0;
-		int endColumn = baseLocation.getCol() + tamanho <= this.field.getDepth() ? baseLocation.getCol() + tamanho
-				: this.field.getDepth();
+		int endColumn = baseLocation.getCol() + tamanho <= this.field.getDepth()-1 ? baseLocation.getCol() + tamanho
+				: this.field.getDepth()-1;
 
 		for (int i = startRow; i <= endRow; i++) {
 			for (int j = startColumn; j <= endColumn; j++) {
 				Location location = new Location(i, j);
-				Animal actorAt = (Animal) this.field.getActorAt(location);
-				actorAt.setLocation(null);
+				Actor actorAt = this.field.getActorAt(location);
+				if (actorAt instanceof Animal) {
+					if (actorAt != null) {
+						((Animal) actorAt).setLocation(null);
+					}
+				}
 				this.field.place(this, location);
 				this.locations.add(location);
 			}
@@ -76,6 +78,15 @@ public class Flood extends NaturalEvent {
 	@Override
 	public boolean isActive() {
 		return this.duration <= MAX_DURATION;
+	}
+
+	@Override
+	public void clear() {
+		System.out.println("eh no flood");
+		for (Location l : this.locations) {
+			this.field.place(null, l);
+		}
+		this.locations.clear();
 	}
 
 }

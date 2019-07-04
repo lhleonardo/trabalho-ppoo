@@ -40,7 +40,9 @@ public class Winter extends Season {
 
 	@Override
 	public Season prepareToNextSeason() {
-		return new Winter(getActors(), getField());
+		Rabbit.setPercentual(1);
+		Fox.setPercentual(1);
+		return new Autumn(getActors(), getField());
 	}
 
 

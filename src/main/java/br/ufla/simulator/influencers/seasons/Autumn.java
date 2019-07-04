@@ -34,7 +34,7 @@ public class Autumn extends Season {
 
 	@Override
 	public Season prepareToNextSeason() {
-		return new Autumn(getActors(), getField());
+		return new Summer(getActors(), getField());
 	}
 
 }

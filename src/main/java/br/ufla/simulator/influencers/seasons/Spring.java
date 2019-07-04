@@ -5,18 +5,17 @@ import java.util.List;
 
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.Flood;
-import br.ufla.simulator.actors.Fox;
-import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.actors.Rabbit;
-
+import br.ufla.simulator.simulation.Field;
 
 public class Spring extends Season {
-	
+
 	private Flood oneFlood;
 
 	public Spring(List<Actor> actors, Field field) {
 		super(actors, field);
-	
+		Rabbit.setPercentual(1.25);
+
 	}
 
 	@Override
@@ -24,18 +23,20 @@ public class Spring extends Season {
 		// let all animals act
 		for (Iterator<Actor> iter = this.getActors().iterator(); iter.hasNext();) {
 			Actor animal = (Actor) iter.next();
-			animal.act(newActors);			
+			animal.act(newActors);
 			if (!animal.isActive()) {
 				iter.remove();
 			}
 		}
 		// add new born animals to the list of animals
-		if(oneFlood ==null) {
-			oneFlood =new Flood(this.getField());
+		if (oneFlood == null) {
+			oneFlood = new Flood(this.getField());
 		}
-		oneFlood.act(newActors);
-		if(!oneFlood.isActive()) {
+
+		if (!oneFlood.isActive()) {
 			oneFlood = null;
+		} else {
+			oneFlood.act(newActors);
 		}
 		this.getActors().addAll(newActors);
 	}
@@ -47,9 +48,8 @@ public class Spring extends Season {
 
 	@Override
 	public Season prepareToNextSeason() {
-		
-		return new Spring(getActors(), getField());
+		oneFlood.clear();
+		return new Winter(getActors(), getField());
 	}
-
 
 }
