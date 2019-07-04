@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Random;
 
 import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.actors.Fire;
 import br.ufla.simulator.actors.Fox;
 import br.ufla.simulator.actors.Hunter;
 import br.ufla.simulator.actors.Rabbit;
@@ -59,9 +60,12 @@ public class Simulator {
 
 		this.step = 0;
 		this.currentSeason = new Autumn(this.actors, this.field);
+		
 		this.view = new SimulatorView(depth, width);
 		this.view.setColor(Fox.class, Color.blue);
 		this.view.setColor(Rabbit.class, Color.orange);
+		this.view.setColor(Hunter.class, Color.green);
+		this.view.setColor(Fire.class, Color.red);
 
 		this.populate();
 	}
