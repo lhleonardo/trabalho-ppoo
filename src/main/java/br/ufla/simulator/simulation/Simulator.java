@@ -22,7 +22,6 @@ public class Simulator {
 
 	static {
 		probabilities = new HashMap<>();
-		probabilities.put(new Occurrence(Hunter.class, 0.001), (field, location) -> new Hunter(field, location));
 		probabilities.put(new Occurrence(Fox.class, 0.02), (field, location) -> new Fox(field, location, true));
 		probabilities.put(new Occurrence(Rabbit.class, 0.08), (field, location) -> new Rabbit(field, location, true));
 	}

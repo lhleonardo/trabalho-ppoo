@@ -72,6 +72,10 @@ public class Hunter implements Actor {
 		}
 		return null;
 	}
+	
+	public Location getLocation() {
+		return location;
+	}
 	@Override
 	public boolean isActive() {
 		return true;
