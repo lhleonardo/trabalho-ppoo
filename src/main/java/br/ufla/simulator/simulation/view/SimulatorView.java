@@ -71,7 +71,7 @@ public class SimulatorView extends JFrame {
 	/**
 	 * Define a color to be used for a given class of animal.
 	 */
-	public void setColor(Class<? extends Actor> actorClass, Color color) {
+	private void setColor(Class<? extends Actor> actorClass, Color color) {
 		colors.put(actorClass, color);
 	}
 
@@ -107,6 +107,9 @@ public class SimulatorView extends JFrame {
 			for (int col = 0; col < field.getWidth(); col++) {
 				Actor animal = field.getActorAt(row, col);
 				if (animal != null) {
+					if (!this.colors.containsKey(animal.getClass())) {
+						this.setColor(animal.getClass(), animal.getColorRepresentation());
+					}
 					stats.incrementCount(animal.getClass());
 					fieldView.drawMark(col, row, getColor(animal.getClass()));
 				} else {

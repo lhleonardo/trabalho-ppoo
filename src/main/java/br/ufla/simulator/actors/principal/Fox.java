@@ -1,8 +1,10 @@
-package br.ufla.simulator.actors;
+package br.ufla.simulator.actors.principal;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Random;
 
+import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
@@ -19,7 +21,7 @@ public class Fox extends Animal {
 	// A shared random number generator to control breeding.
 	private static final Random rand = new Random();
 
-	private static double percentual;
+	private static double foodBuffer;
 	// The fox's food level, which is increased by eating rabbits.
 	private int foodLevel;
 
@@ -30,7 +32,7 @@ public class Fox extends Animal {
 	 */
 	public Fox(Field field, Location location, boolean randomAge) {
 		super(field, location);
-		percentual = 1;
+		foodBuffer = 1;
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 			foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
@@ -81,7 +83,7 @@ public class Fox extends Animal {
 	 *Faça essa raposa mais faminta. Isso pode resultar na morte da raposa.
 	 */
 	private void incrementHunger() {
-		foodLevel -= percentual;
+		foodLevel -= foodBuffer;
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class Fox extends Animal {
 	private Location findFood(Field field, Location location) {
 		Location newLocation = field.findActor(location, Rabbit.class, 1);
 		if (newLocation != null) {
-			((Animal)field.getActorAt(newLocation)).setWasHunted();
+			((Animal) field.getActorAt(newLocation)).setWasHunted();
 
 			location = newLocation;
 			this.foodLevel += RABBIT_FOOD_VALUE;
@@ -148,12 +150,13 @@ public class Fox extends Animal {
 		return 3;
 	}
 
-	public void setPercentual(double p) {
-		percentual = p;
+	public static void setFoodBuffer(double p) {
+		foodBuffer = p;
 	}
 
-	public double getPercentual() {
-		return percentual;
+	@Override
+	public Color getColorRepresentation() {
+		return Color.darkGray;
 	}
 
 }

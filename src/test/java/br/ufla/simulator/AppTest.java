@@ -1,6 +1,6 @@
 package br.ufla.simulator;
 
-import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.principal.Fox;
 
 /**
  * Unit test for simple App.

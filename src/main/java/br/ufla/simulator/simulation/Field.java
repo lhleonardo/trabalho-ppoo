@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import br.ufla.simulator.actors.Actor;
-import br.ufla.simulator.actors.Fox;
+import br.ufla.simulator.actors.principal.Fox;
 
 public class Field {
 	private static final Random rand = new Random();
@@ -158,16 +158,16 @@ public class Field {
 	 * @return retorna a localização de uma raposa no mapa dentro de um raio de 100. caso contrario retorna null
 	 */
 	public Location moveToNearestFox(Location location) {
-		
+
 		Location actorLocation = null;
 		int y = 3;
 		while (actorLocation == null && y != 101) {
 			actorLocation = this.findActor(location, Fox.class, y);
 			y += 1;
 		}
-		
+
 		if (actorLocation != null) {
-			Location newLocation = new Location (location.getRow(),location.getCol());
+			Location newLocation = new Location(location.getRow(), location.getCol());
 			if (actorLocation.getRow() > location.getRow()) {
 				newLocation.setRowPlus(1);
 			} else if (actorLocation.getRow() < location.getRow()) {
@@ -178,7 +178,7 @@ public class Field {
 			} else if (actorLocation.getCol() < location.getCol()) {
 				newLocation.setColPlus(-1);
 			}
-	
+
 			if (this.getActorAt(newLocation) == null) {
 				return newLocation;
 			}

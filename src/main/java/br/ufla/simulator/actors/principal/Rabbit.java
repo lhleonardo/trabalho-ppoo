@@ -1,8 +1,10 @@
-package br.ufla.simulator.actors;
+package br.ufla.simulator.actors.principal;
 
+import java.awt.Color;
 import java.util.List;
 import java.util.Random;
 
+import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
@@ -14,7 +16,7 @@ import br.ufla.simulator.simulation.Location;
  */
 public class Rabbit extends Animal {
 	private static final Random rand = new Random();
-	private static double percentual;
+	private static double breedingBuffer = 1;
 
 	/**
 	 * Cria um novo coelho. O coelho pode ser criaco com a idade 0 ou com uma idade aleatorio
@@ -23,7 +25,6 @@ public class Rabbit extends Animal {
 	 */
 	public Rabbit(Field field, Location location, boolean randomAge) {
 		super(field, location);
-		percentual = 1;
 		if (randomAge) {
 			this.setAge(rand.nextInt(getMaxAge()));
 		}
@@ -50,11 +51,25 @@ public class Rabbit extends Animal {
 			newLocation = f.freeAdjacentLocation(this.getLocation());
 		}
 		// Only transfer to the updated field if there was a free location
-		f.place(null, getLocation());
-		setLocation(newLocation);
-		if (newLocation != null) {
-			f.place(this, newLocation);
+		if (getLocation() != null) {
+			f.place(null, getLocation());
+			setLocation(newLocation);
+			if (newLocation != null) {
+				f.place(this, newLocation);
+			}
 		}
+	}
+
+	@Override
+	public int breed() {
+		if (breedingBuffer == 0.85) {
+			if (canBreed() && rand.nextDouble() <= getBreedingProbability()) {
+				return getMaxLitterSize();
+			} else {
+				return 0;
+			}
+		}
+		return super.breed();
 	}
 
 	@Override
@@ -91,7 +106,7 @@ public class Rabbit extends Animal {
 
 	@Override
 	public double getBreedingProbability() {
-		return 0.02 * percentual;
+		return 0.02 * breedingBuffer;
 	}
 
 	@Override
@@ -99,15 +114,13 @@ public class Rabbit extends Animal {
 		return 5;
 	}
 
-	public static void setPercentual(double p) {
-		percentual = p;
+	@Override
+	public Color getColorRepresentation() {
+		return Color.orange;
 	}
 
-	public int breed() {
-		if (this.getBreedingProbability() == 0.1275) {
-			return getMaxLitterSize();
-		}
-		return super.breed();
+	public static void setBreedingBuffer(double p) {
+		breedingBuffer = p;
 	}
 
 }
