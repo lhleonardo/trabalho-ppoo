@@ -147,7 +147,7 @@ public class Field {
 	}
 
 	public Location moveToNearestFox(Location location) {
-		
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													
 		Location actorLocation = null;
 		int y = 3;
 		while (actorLocation == null && y != 100) {
