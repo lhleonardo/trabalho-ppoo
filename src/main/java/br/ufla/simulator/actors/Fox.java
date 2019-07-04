@@ -68,13 +68,12 @@ public class Fox extends Animal {
 			}
 
 		}
-		if (getLocation() == null) {
-			System.out.println("Alguma localização de uma raposa é nula");
-		}
-		f.place(null, getLocation());
-		setLocation(newLocation);
-		if (newLocation != null) {
-			f.place(this, newLocation);
+		if (getLocation() != null) {
+			f.place(null, getLocation());
+			setLocation(newLocation);
+			if (newLocation != null) {
+				f.place(this, newLocation);
+			}
 		}
 
 	}
