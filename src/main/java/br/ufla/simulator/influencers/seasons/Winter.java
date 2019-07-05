@@ -8,6 +8,16 @@ import br.ufla.simulator.actors.principal.Fox;
 import br.ufla.simulator.actors.principal.Rabbit;
 import br.ufla.simulator.simulation.Field;
 
+/**
+ * No Inverno as raposas precisam comer o dobro de coelhos para conseguir
+ * sobreviver e os coelhos reproduzem 15% menos que o normal. Entretanto, a
+ * quantidade de coelhos que irão nascer em uma reprodução no inverno é a
+ * quantidade máxima de filhos que um coelho pode ter;
+ * 
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo
+ *         Henrique de Braz
+ *
+ */
 public class Winter extends Season {
 
 	public Winter(List<Actor> actors, Field field) {
@@ -18,7 +28,7 @@ public class Winter extends Season {
 
 	@Override
 	protected void execute(List<Actor> newActors) {
-		// let all animals act
+		// Faz com que todos os atores atuem
 		for (Iterator<Actor> iter = this.getActors().iterator(); iter.hasNext();) {
 			Actor animal = (Actor) iter.next();
 			animal.act(newActors);
@@ -26,7 +36,7 @@ public class Winter extends Season {
 				iter.remove();
 			}
 		}
-
+		// Adiciona novos animais recem gerados a lista de animais
 		this.getActors().addAll(newActors);
 	}
 

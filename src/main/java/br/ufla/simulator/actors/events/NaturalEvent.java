@@ -16,7 +16,7 @@ import br.ufla.simulator.simulation.Location;
  * número aleatório de unidades de área e mata todos os elementos dentro desta
  * área.
  * 
- * @author lhleo
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
  *
  */
 public abstract class NaturalEvent implements Actor {

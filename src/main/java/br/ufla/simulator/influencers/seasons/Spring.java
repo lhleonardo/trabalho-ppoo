@@ -12,6 +12,17 @@ import br.ufla.simulator.actors.principal.Rabbit;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
+/**
+ * Representação da estação primavera na simulação, nessa estação os coelhos se
+ * reproduzem mais e a raposa vai precisar comer menos para sobreviver, no
+ * entando por ser uma época chuvosa, há riscos de alagamento ocasionado pela
+ * imensa quantidade de chuva.Esses alagamentos matam todos os animais quando
+ * são atingidos.
+ * 
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo
+ *         Henrique de Braz
+ */
+
 public class Spring extends Season {
 
 	private static final int MAX_HUNTERS = 50;
@@ -26,6 +37,14 @@ public class Spring extends Season {
 		populate();
 	}
 
+	/**
+	 * Método que adiciona caçadores na primavera, esse método gera localizões
+	 * aleatorias no campo e a partir da localização gerada, caso não exista nada no
+	 * local é adicionado um caçador no local, caso contrário é verificado se existe
+	 * alguma localização vaga ajacente para adicionar o caçador, caso não exista
+	 * ele nao é adicionado
+	 * 
+	 */
 	private void populate() {
 		for (int i = 0; i < MAX_HUNTERS; i++) {
 			Random random = new Random();
@@ -49,13 +68,13 @@ public class Spring extends Season {
 				}
 			}
 		}
-		
+
 		this.getActors().addAll(hunters);
 	}
 
 	@Override
 	protected void execute(List<Actor> newActors) {
-		// let all animals act
+		// Faz com que todos os atores atuem
 		for (Iterator<Actor> iter = this.getActors().iterator(); iter.hasNext();) {
 			Actor animal = (Actor) iter.next();
 			animal.act(newActors);
@@ -63,7 +82,7 @@ public class Spring extends Season {
 				iter.remove();
 			}
 		}
-		// add new born animals to the list of animals
+		//Adiciona a inundação no mapa
 		if (oneFlood == null) {
 			oneFlood = new Flood(this.getField());
 		}
@@ -73,11 +92,17 @@ public class Spring extends Season {
 		} else {
 			oneFlood.act(newActors);
 		}
+		// Adiciona novos animais recem gerados a lista de animais
 		this.getActors().addAll(newActors);
 	}
-	
+
+	/**
+	 * Método que remove os caçadores do campo
+	 * 
+	 */
+
 	public void removeHunters() {
-		for(Hunter hunter: hunters) {
+		for (Hunter hunter : hunters) {
 			this.getField().place(null, hunter.getLocation());
 		}
 	}
@@ -87,6 +112,11 @@ public class Spring extends Season {
 		return 10;
 	}
 
+	/**
+	 * Método que chama a proxima estacão, nesse método os buffers são restaurados,
+	 * o caçador é retirado do campo e a proxima estação é chamada
+	 * 
+	 */
 	@Override
 	public Season prepareToNextSeason() {
 		if (oneFlood != null)

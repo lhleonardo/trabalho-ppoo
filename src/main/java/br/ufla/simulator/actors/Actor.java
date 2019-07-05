@@ -7,7 +7,7 @@ import java.util.List;
  * Ator presente na simulação. Esse ator é representativo de um elemento
  * presente na simulação e desenhável no campo
  * 
- * @author lhleo
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
  *
  */
 public interface Actor {
