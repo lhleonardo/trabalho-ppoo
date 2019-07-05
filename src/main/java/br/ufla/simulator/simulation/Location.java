@@ -1,7 +1,5 @@
 package br.ufla.simulator.simulation;
 
-import br.ufla.simulator.actors.Actor;
-
 /**
  * Represent a location in a rectangular grid.
  * 
@@ -22,18 +20,6 @@ public class Location {
 	public Location(int row, int col) {
 		this.row = row;
 		this.col = col;
-	}
-
-	/**
-	 * Implement content equality.
-	 */
-	public boolean equals(Actor obj) {
-		if (obj instanceof Location) {
-			Location other = (Location) obj;
-			return row == other.getRow() && col == other.getCol();
-		} else {
-			return false;
-		}
 	}
 
 	/**

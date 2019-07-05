@@ -19,8 +19,11 @@ public class Rabbit extends Animal {
 	private static double breedingBuffer = 1;
 
 	/**
-	 * Cria um novo coelho. O coelho pode ser criaco com a idade 0 ou com uma idade aleatorio
+	 * Cria um novo coelho. O coelho pode ser criaco com a idade 0 ou com uma idade
+	 * aleatorio
 	 * 
+	 * @param field     - Representação do campo de simulação
+	 * @param location  - Localização da raposa dentro do campo de simulação
 	 * @param randomAge If true, the rabbit will have a random age.
 	 */
 	public Rabbit(Field field, Location location, boolean randomAge) {
@@ -31,8 +34,8 @@ public class Rabbit extends Animal {
 	}
 
 	/**
-	 * Isso é o que o coelho faz quase tempo todo - eles corre . As vezes ele 
-	 * irá procriar, ou morrer por idade.
+	 * Isso é o que o coelho faz quase tempo todo - eles corre . As vezes ele irá
+	 * procriar, ou morrer por idade.
 	 */
 	@Override
 	public void act(List<Actor> newRabbits) {

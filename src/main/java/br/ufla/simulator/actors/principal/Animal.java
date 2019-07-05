@@ -12,7 +12,8 @@ import br.ufla.simulator.simulation.Location;
  * dentro do campo e poderá ser caçado por algum outro ator (podendo ser até um
  * animal)
  * 
- * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo
+ *         Henrique de Braz
  *
  */
 public abstract class Animal implements Actor {
@@ -32,8 +33,8 @@ public abstract class Animal implements Actor {
 	 * Cria um animal e recebe para manipulação a situação atual do campo, junto com
 	 * a sua localização inicial
 	 * 
-	 * @param field
-	 * @param location
+	 * @param field    - campo de simulação
+	 * @param location - localização do animal dentro do campo de simulação
 	 */
 	public Animal(Field field, Location location) {
 		this.location = location;
@@ -101,7 +102,7 @@ public abstract class Animal implements Actor {
 	 * Obtém o campo de representação com as configurações atuais, que foram criados
 	 * pela simulação.
 	 * 
-	 * @see Simulator
+	 * @see br.ufla.simulator.simulation.Simulator
 	 * @return campo de representação da simulação atual
 	 */
 	public Field getField() {

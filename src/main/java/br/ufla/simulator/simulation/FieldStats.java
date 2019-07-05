@@ -32,6 +32,9 @@ public class FieldStats {
 	}
 
 	/**
+	 * Obtains details about current population state
+	 * 
+	 * @param field - Field representation of the simulation
 	 * @return A string describing what animals are in the field.
 	 */
 	public String getPopulationDetails(Field field) {
@@ -74,13 +77,15 @@ public class FieldStats {
 
 	/**
 	 * Increment the count for one class of animal.
+	 * 
+	 * @param actorClass - ClassType of the current actor
 	 */
-	public void incrementCount(Class<? extends Actor> animalClass) {
-		Counter cnt = (Counter) counters.get(animalClass);
+	public void incrementCount(Class<? extends Actor> actorClass) {
+		Counter cnt = (Counter) counters.get(actorClass);
 		if (cnt == null) {
 			// we do not have a counter for this species yet - create one
-			cnt = new Counter(animalClass.getSimpleName());
-			counters.put(animalClass, cnt);
+			cnt = new Counter(actorClass.getSimpleName());
+			counters.put(actorClass, cnt);
 		}
 		cnt.increment();
 	}
@@ -96,6 +101,7 @@ public class FieldStats {
 	 * Determine whether the simulation is still viable. I.e., should it continue to
 	 * run.
 	 * 
+	 * @param field - Representation positional of the simulation
 	 * @return true If there is more than one species alive.
 	 */
 	public boolean isViable(Field field) {
@@ -118,6 +124,8 @@ public class FieldStats {
 	 * Generate counts of the number of foxes and rabbits. These are not kept up to
 	 * date as foxes and rabbits are placed in the field, but only when a request is
 	 * made for the information.
+	 * 
+	 * @param field - Representation positional of the simulation
 	 */
 	private void generateCounts(Field field) {
 		reset();

@@ -29,7 +29,9 @@ public class Fox extends Animal {
 	/**
 	 * Cria a raposa. A raposa pode ser criaca com idade zero ou uma idade aleatoria
 	 * 
-	 * @param randomAge If true, the fox will have random age and hunger level.
+	 * @param field     - Representação do campo de simulação
+	 * @param location  - Localização da raposa dentro do campo de simulação
+	 * @param randomAge - If true, the fox will have random age and hunger level.
 	 */
 	public Fox(Field field, Location location, boolean randomAge) {
 		super(field, location);

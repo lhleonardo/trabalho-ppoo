@@ -46,6 +46,9 @@ public class SimulatorView extends JFrame {
 
 	/**
 	 * Create a view of the given width and height.
+	 * 
+	 * @param height - height of screen and dimension of the field
+	 * @param width  - width of screen and dimension of the field
 	 */
 	public SimulatorView(int height, int width) {
 		stats = new FieldStats();
@@ -92,8 +95,9 @@ public class SimulatorView extends JFrame {
 	/**
 	 * Show the current status of the field.
 	 * 
-	 * @param step  Which iteration step it is.
-	 * @param stats Status of the field to be represented.
+	 * @param step          Which iteration step it is.
+	 * @param stats         Status of the field to be represented.
+	 * @param currentSeason - season who applied in the simulation
 	 */
 	public void showStatus(int step, Field field, Season currentSeason) {
 		if (!isVisible())
@@ -128,6 +132,7 @@ public class SimulatorView extends JFrame {
 	/**
 	 * Determine whether the simulation should continue to run.
 	 * 
+	 * @param field - Representation of the field simulation
 	 * @return true If there is more than one species alive.
 	 */
 	public boolean isViable(Field field) {
@@ -151,6 +156,9 @@ public class SimulatorView extends JFrame {
 
 		/**
 		 * Create a new FieldView component.
+		 * 
+		 * @param height - dimension of the component
+		 * @param width  - dimension of the component
 		 */
 		public FieldView(int height, int width) {
 			gridHeight = height;
@@ -160,6 +168,8 @@ public class SimulatorView extends JFrame {
 
 		/**
 		 * Tell the GUI manager how big we would like to be.
+		 * 
+		 * @return dimension configurated
 		 */
 		public Dimension getPreferredSize() {
 			return new Dimension(gridWidth * GRID_VIEW_SCALING_FACTOR, gridHeight * GRID_VIEW_SCALING_FACTOR);
@@ -188,6 +198,10 @@ public class SimulatorView extends JFrame {
 
 		/**
 		 * Paint on grid location on this field in a given color.
+		 * 
+		 * @param x     - position in screen
+		 * @param y     - position in screen
+		 * @param color - drawable color
 		 */
 		public void drawMark(int x, int y, Color color) {
 			g.setColor(color);
@@ -197,6 +211,8 @@ public class SimulatorView extends JFrame {
 		/**
 		 * The field view component needs to be redisplayed. Copy the internal image to
 		 * screen.
+		 * 
+		 * @param g - object that draw the image
 		 */
 		public void paintComponent(Graphics g) {
 			if (fieldImage != null) {
