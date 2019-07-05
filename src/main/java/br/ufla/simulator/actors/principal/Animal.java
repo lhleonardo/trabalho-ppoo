@@ -12,7 +12,7 @@ import br.ufla.simulator.simulation.Location;
  * dentro do campo e poderá ser caçado por algum outro ator (podendo ser até um
  * animal)
  * 
- * @author lhleo
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
  *
  */
 public abstract class Animal implements Actor {

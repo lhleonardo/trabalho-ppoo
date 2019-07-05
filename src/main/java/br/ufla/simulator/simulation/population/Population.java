@@ -20,7 +20,7 @@ import br.ufla.simulator.simulation.Location;
  * Valores para nascimento dos atores presentes em campo são definidos a partir
  * de sua taxa inicial de nascimento
  * 
- * @author lhleo
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
  *
  */
 public class Population {

@@ -14,7 +14,7 @@ import br.ufla.simulator.simulation.Simulator;
  * 
  * Sua interferência é variada e seu acesso é total dentro da simulação.
  * 
- * @author lhleo
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
  *
  */
 public abstract class Season {

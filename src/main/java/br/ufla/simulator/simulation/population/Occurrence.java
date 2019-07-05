@@ -7,7 +7,7 @@ import br.ufla.simulator.actors.Actor;
  * Population para iniciar o campo de simulação
  * 
  * @see Population
- * @author lhleo
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
  *
  */
 class Occurrence implements Comparable<Occurrence> {
