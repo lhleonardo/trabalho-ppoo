@@ -1,11 +1,23 @@
 package br.ufla.simulator.influencers.seasons;
 
 import java.util.Iterator;
+
 import java.util.List;
 
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.actors.events.Fire;
 import br.ufla.simulator.simulation.Field;
+
+/**
+ * Representação da estação verão na simulação,no verão áreas aleatórias no mapa
+ * sofrem com incêndios causados pela grande quantidade de calor. Esses
+ * incêndios matam todos os animais presentes em seu interior. Por conta da
+ * umidade presente no solo, os incêndios acontecem em dias intercalados e
+ * possuem o tamanho máximo de 20 unidades de área;
+ * 
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo
+ *         Henrique de Braz
+ */
 
 public class Summer extends Season {
 
@@ -17,7 +29,7 @@ public class Summer extends Season {
 
 	@Override
 	protected void execute(List<Actor> newActors) {
-		// let all animals act
+		// Faz com que todos os atores atuem
 		for (Iterator<Actor> iter = this.getActors().iterator(); iter.hasNext();) {
 			Actor animal = (Actor) iter.next();
 			animal.act(newActors);
@@ -25,7 +37,7 @@ public class Summer extends Season {
 				iter.remove();
 			}
 		}
-		// add new born animals to the list of animals
+		// Adiciona o fogo no mapa
 		if (oneFire == null) {
 			oneFire = new Fire(this.getField());
 		}
@@ -35,6 +47,7 @@ public class Summer extends Season {
 		} else {
 			oneFire.act(newActors);
 		}
+		// Adiciona novos animais recem gerados a lista de animais
 		this.getActors().addAll(newActors);
 	}
 
