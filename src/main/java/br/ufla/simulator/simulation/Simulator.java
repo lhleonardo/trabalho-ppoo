@@ -115,8 +115,6 @@ public class Simulator {
 		this.currentSeason.simulateOneStep();
 
 		if (this.currentSeason.isEnd()) {
-			this.currentSeason.reset();
-
 			this.currentSeason = this.currentSeason.prepareToNextSeason();
 		}
 	}

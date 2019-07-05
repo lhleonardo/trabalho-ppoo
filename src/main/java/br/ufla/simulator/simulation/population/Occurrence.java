@@ -2,15 +2,35 @@ package br.ufla.simulator.simulation.population;
 
 import br.ufla.simulator.actors.Actor;
 
-public class Occurrence implements Comparable<Occurrence> {
+/**
+ * Ocorrência de ser criado um animal na simulação. Utilizado na construção do
+ * Population para iniciar o campo de simulação
+ * 
+ * @see Population
+ * @author lhleo
+ *
+ */
+class Occurrence implements Comparable<Occurrence> {
 	private final Class<? extends Actor> from;
 	private final double probability;
 
+	/**
+	 * Cria uma nova representação. Esta inclui qual o ator será criado e a
+	 * probabilidade de seu nascimento.
+	 * 
+	 * @param from        - Ator que será criado
+	 * @param probability - Probabilidade deste ator ser criado
+	 */
 	public Occurrence(Class<? extends Actor> from, double probability) {
 		this.from = from;
 		this.probability = probability;
 	}
 
+	/**
+	 * Obter a probabilidade do ator ser criado no início da simulação
+	 * 
+	 * @return probabilidade de criação
+	 */
 	public double getProbability() {
 		return probability;
 	}

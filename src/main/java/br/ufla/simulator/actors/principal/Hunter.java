@@ -7,19 +7,23 @@ import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
-
 /**
+ * Representação de um caçador na simulação.
  * 
- * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
+ * Caçadores são atores específicos como predadores naturais de raposas. Eles
+ * aparecem na primavera (Veja @see Spring) e caçam as raposas em seu redor.
+ * 
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo
+ *         Henrique de Braz
  *
  */
 public class Hunter implements Actor {
 	private Field field;
 	private Location location;
-	
+
 	/**
 	 * 
-	 * @param field matriz de posições do campo da simulação.
+	 * @param field    matriz de posições do campo da simulação.
 	 * @param location local aonde o caçador se encontra na matriz.
 	 */
 
@@ -27,10 +31,11 @@ public class Hunter implements Actor {
 		this.location = location;
 		this.field = field;
 	}
-	
+
 	/**
-	 * metodo relaciona as ações do caçador, iniciando com a caça por raposas. No caso de não encontrar um
-	 * raposa em seu alcance o caçador anda em direção a raposa mais proxima.
+	 * metodo relaciona as ações do caçador, iniciando com a caça por raposas. No
+	 * caso de não encontrar um raposa em seu alcance o caçador anda em direção a
+	 * raposa mais proxima.
 	 */
 	@Override
 	public void act(List<Actor> newAnimals) {
@@ -41,6 +46,7 @@ public class Hunter implements Actor {
 			}
 		}
 	}
+
 	/**
 	 * Faz com que o caçador ande em direção a raposa mais proxima.
 	 */
@@ -54,28 +60,36 @@ public class Hunter implements Actor {
 			field.place(this, this.location);
 		}
 	}
-	
+
 	/**
-	 * Busca pela raposa a aleatoria mais proxima da localizacao do objeto. Caça seu alvo raposa, tornando sua
-	 * wasHunted true e move-se até o local do alvo.
-	 * @return retorna a localização da raposa caçada, caso não tenho encontrado uma raposa proxima é retornado null
+	 * Busca pela raposa a aleatoria mais proxima da localizacao do objeto. Caça seu
+	 * alvo raposa, tornando sua wasHunted true e move-se até o local do alvo.
+	 * 
+	 * @return retorna a localização da raposa caçada, caso não tenho encontrado uma
+	 *         raposa proxima é retornado null
 	 */
 	public Location findFox() {
-		Location newLocation = field.findActor(location, Fox.class,2);
+		Location newLocation = field.findActor(location, Fox.class, 2);
 		if (newLocation != null) {
-			((Animal)field.getActorAt(newLocation)).setLocation(null);
-			field.place(null,location);
+			((Animal) field.getActorAt(newLocation)).setLocation(null);
+			field.place(null, location);
 			field.place(this, newLocation);
 			location = newLocation;
-			field.place(this,location);
+			field.place(this, location);
 			return newLocation;
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Obtem a localização do caçador no instante atual da simulação
+	 * 
+	 * @return localização dentro do campo de simulação
+	 */
 	public Location getLocation() {
 		return location;
 	}
+
 	@Override
 	public boolean isActive() {
 		return true;

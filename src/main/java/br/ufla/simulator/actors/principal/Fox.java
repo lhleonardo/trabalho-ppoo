@@ -9,7 +9,8 @@ import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.Location;
 
 /**
- * A simple model of a fox. Foxes age, move, eat rabbits, and die.
+ * Representação de uma raposa na simulação. Ela é capaz de andar e procurar
+ * comida (coelhos).
  * 
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
@@ -80,7 +81,8 @@ public class Fox extends Animal {
 	}
 
 	/**
-	 * Faça essa raposa mais faminta. Isso pode resultar na morte da raposa.
+	 * Faz com que a raposa fique com fome a cada iteração. Para ela não morrer de
+	 * fome, é necessário encontrar comida.
 	 */
 	private void incrementHunger() {
 		foodLevel -= foodBuffer;
