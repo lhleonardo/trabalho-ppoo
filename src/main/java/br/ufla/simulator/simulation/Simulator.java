@@ -3,6 +3,8 @@ package br.ufla.simulator.simulation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import br.ufla.simulator.actors.Actor;
 import br.ufla.simulator.influencers.seasons.Autumn;
 import br.ufla.simulator.influencers.seasons.Season;
@@ -14,7 +16,8 @@ import br.ufla.simulator.simulation.view.SimulatorView;
  * simulação. Nela estão contidos os atores, manipulação inicial do campo e
  * controle da interface gráfica.
  * 
- * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo Henrique de Braz
+ * @author Guilherme Barbosa Ochikubo, Guilherme Henrique de Melo e Leonardo
+ *         Henrique de Braz
  *
  */
 public class Simulator {
@@ -89,7 +92,7 @@ public class Simulator {
 			this.executeStep();
 		}
 
-		this.view.showStatus(this.step, field);
+		this.view.showStatus(this.step, field, this.currentSeason);
 	}
 
 	/**
@@ -101,7 +104,7 @@ public class Simulator {
 		this.actors.clear();
 		this.step = 1;
 
-		this.view.showStatus(step, field);
+		this.view.showStatus(step, field, currentSeason);
 	}
 
 	/**
@@ -117,5 +120,20 @@ public class Simulator {
 		if (this.currentSeason.isEnd()) {
 			this.currentSeason = this.currentSeason.prepareToNextSeason();
 		}
+
+		if (step > 1)
+			if (!canContinue()) {
+				JOptionPane.showMessageDialog(null, "Fim da execução!");
+				System.exit(0);
+			}
+	}
+
+	/**
+	 * Check if exist 2 animals (required to run the simulation"
+	 * 
+	 * @return true has fox and rabbit, false otherwise
+	 */
+	private boolean canContinue() {
+		return view.isViable(field);
 	}
 }

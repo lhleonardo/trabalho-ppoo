@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.influencers.seasons.Season;
 
 /**
  * This class collects and provides some statistical data on the state of a
@@ -17,6 +18,7 @@ public class FieldStats {
 	// Counters for each type of entity (fox, rabbit, etc.) in the simulation.
 	private HashMap<Class<? extends Actor>, Counter> counters;
 	// Whether the counters are currently up to date.
+	private Season currentSeason;
 	private boolean countsValid;
 
 	/**
@@ -45,6 +47,7 @@ public class FieldStats {
 			buffer.append(info.getCount());
 			buffer.append(' ');
 		}
+		buffer.append("Season: " + this.currentSeason.getClass().getSimpleName());
 		return buffer.toString();
 	}
 
@@ -61,13 +64,22 @@ public class FieldStats {
 	}
 
 	/**
+	 * Set the current season
+	 * 
+	 * @param current - the season
+	 */
+	public void setCurrentSeason(Season current) {
+		this.currentSeason = current;
+	}
+
+	/**
 	 * Increment the count for one class of animal.
 	 */
 	public void incrementCount(Class<? extends Actor> animalClass) {
 		Counter cnt = (Counter) counters.get(animalClass);
 		if (cnt == null) {
 			// we do not have a counter for this species yet - create one
-			cnt = new Counter(animalClass.getName());
+			cnt = new Counter(animalClass.getSimpleName());
 			counters.put(animalClass, cnt);
 		}
 		cnt.increment();

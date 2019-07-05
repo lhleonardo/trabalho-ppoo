@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.ufla.simulator.actors.Actor;
+import br.ufla.simulator.influencers.seasons.Season;
 import br.ufla.simulator.simulation.Field;
 import br.ufla.simulator.simulation.FieldStats;
 
@@ -94,7 +95,7 @@ public class SimulatorView extends JFrame {
 	 * @param step  Which iteration step it is.
 	 * @param stats Status of the field to be represented.
 	 */
-	public void showStatus(int step, Field field) {
+	public void showStatus(int step, Field field, Season currentSeason) {
 		if (!isVisible())
 			setVisible(true);
 
@@ -118,6 +119,7 @@ public class SimulatorView extends JFrame {
 			}
 		}
 		stats.countFinished();
+		stats.setCurrentSeason(currentSeason);
 
 		population.setText(POPULATION_PREFIX + stats.getPopulationDetails(field));
 		fieldView.repaint();
@@ -202,4 +204,5 @@ public class SimulatorView extends JFrame {
 			}
 		}
 	}
+
 }
